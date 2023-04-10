@@ -1,9 +1,10 @@
 import { Plugin } from 'obsidian'
 import createFile from './lib/createFile'
-import MapFileView from './MapFileView'
-import { EDIT_VIEW, FILE_FORMAT } from './const'
 
-// Remember to rename these classes and interfaces!
+import MapFileView from './MapFileView'
+import MapView from './MapView'
+
+import { MAP_EDIT_VIEW, FILE_FORMAT, MAP_VIEW } from './const'
 
 export default class MapPlugin extends Plugin {
     settings: {}
@@ -15,10 +16,12 @@ export default class MapPlugin extends Plugin {
     }
 
     async onload() {
-        this.addRibbon()
+        this.registerView(MAP_EDIT_VIEW, (leaf) => new MapFileView(leaf))
+        this.registerView(MAP_VIEW, (leaf) => new MapView(leaf))
 
-        this.registerView(EDIT_VIEW, MapFileView.create_view)
-        this.registerExtensions([FILE_FORMAT], EDIT_VIEW)
+        this.registerExtensions([FILE_FORMAT], MAP_EDIT_VIEW)
+
+        this.addRibbon()
     }
 
     onunload() {}
