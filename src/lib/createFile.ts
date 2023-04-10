@@ -18,7 +18,6 @@ export default async function createFile(
 
     while (await adapter.exists(file_path())) {
         attempt++
-        console.log(attempt)
     }
 
     adapter.write(file_path(), defaultContent)
