@@ -1,7 +1,7 @@
 {
 	"name": "fantasy-pack-x-map-plugin",
 	"version": "1.0.0",
-	"description": "This is an obsidian plugin (https://obsidian.md) for Obsidian, which supports the creation and edit of maps",
+	"description": "This is an obsidian plugin (https://obsidian.md), which supports the creation and edit of maps",
 	"main": "main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",
