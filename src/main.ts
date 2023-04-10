@@ -1,4 +1,4 @@
-import { Notice, Plugin } from 'obsidian'
+import { Plugin } from 'obsidian'
 import createFile from './lib/createFile'
 import MapFileView from './MapFileView'
 import { EDIT_VIEW, FILE_FORMAT } from './const'
