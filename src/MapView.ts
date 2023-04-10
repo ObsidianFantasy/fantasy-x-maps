@@ -1,18 +1,21 @@
-import { FileView, getIcon, TextFileView, WorkspaceLeaf } from 'obsidian'
+import { FileView, getIcon, ItemView, TextFileView, WorkspaceLeaf } from 'obsidian'
 import { MAP_EDIT_VIEW } from './const'
 
 /**
- * ### Map File View
- * @description File View that manipulates the map view
+ * 
  */
-export default class MapFileView extends TextFileView {
+export default class MapFileView extends ItemView {
+    getViewType(): string {
+        return 'map-view'
+    }
+
+    getDisplayText(): string {
+        throw new Error('Method not implemented.')
+    }
+
     rendering: boolean
     canvas: HTMLCanvasElement
     ctx: CanvasRenderingContext2D
-
-    getViewType(): string {
-        return MAP_EDIT_VIEW
-    }
 
     onload(): void {
         super.onload()
@@ -26,23 +29,6 @@ export default class MapFileView extends TextFileView {
     onunload(): void {
         super.onunload()
         this.rendering = false
-    }
-
-    //////////////////////
-    // Data Manipulation
-    //
-
-    getViewData(): string {
-        console.log('get')
-        return '{}'
-    }
-
-    setViewData(data: string, clear: boolean): void {
-        console.log('set', data, clear)
-    }
-
-    clear(): void {
-        console.log('clear')
     }
 
     ////////////
