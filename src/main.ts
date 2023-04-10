@@ -6,10 +6,14 @@ import createFile from './lib/createFile'
 export default class MapPlugin extends Plugin {
     settings: {}
 
-    async onload() {
+    addRibbon() {
         this.addRibbonIcon('map', 'Create map fragment', () =>
             createFile(this, 'map', '{}')
-        )
+        ).addClass('fantasy-x-ribbon')
+    }
+
+    async onload() {
+        this.addRibbon()
     }
 
     onunload() {}
