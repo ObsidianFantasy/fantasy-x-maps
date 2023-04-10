@@ -7,7 +7,6 @@ export default class MapPlugin extends Plugin {
 
     async onload() {
         this.addRibbonIcon('map', 'Create map fragment', () => new Notice('Hello'))
-        
     }
 
     onunload() {}
