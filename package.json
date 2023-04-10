@@ -1,0 +1,34 @@
+{
+	"name": "fantasy-pack-x-map-plugin",
+	"version": "1.0.0",
+	"description": "This is an obsidian plugin (https://obsidian.md) for Obsidian, which supports the creation and edit of maps",
+	"main": "main.js",
+	"scripts": {
+		"dev": "node esbuild.config.mjs",
+		"build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production"
+	},
+	"keywords": [],
+	"author": "Anatoly Weinstein",
+	"license": "MIT",
+	"devDependencies": {
+		"@types/d3-delaunay": "^6.0.1",
+		"@types/node": "^16.11.6",
+		"@types/react": "^18.0.29",
+		"@types/react-dom": "^18.0.11",
+		"@typescript-eslint/eslint-plugin": "5.29.0",
+		"@typescript-eslint/parser": "5.29.0",
+		"builtin-modules": "3.3.0",
+		"esbuild": "0.17.3",
+		"esbuild-plugin-copy": "^2.1.1",
+		"obsidian": "latest",
+		"tslib": "2.4.0",
+		"typescript": "4.7.4"
+	},
+	"dependencies": {
+		"d3-delaunay": "^6.0.3",
+		"i": "^0.3.7",
+		"npm": "^9.6.2",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0"
+	}
+}

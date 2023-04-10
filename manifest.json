@@ -1,0 +1,11 @@
+{
+	"id": "fantasy-pack-x-map-plugin",
+	"name": "Fantasy X Plugin - Maps Extension",
+	"version": "1.0.0",
+	"minAppVersion": "0.15.0",
+	"description": "This plugin introduces a map file view that supports creating and editing maps in Obsidian",
+	"author": "Anatoly Wein",
+	"authorUrl": "https://obsidian.md",
+	"fundingUrl": "https://obsidian.md/pricing",
+	"isDesktopOnly": false
+}
