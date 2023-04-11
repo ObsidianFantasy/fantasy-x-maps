@@ -32,7 +32,8 @@ export default class MapPlugin extends Plugin {
     }
 
     onunload() {
-        this.app.workspace.detachLeavesOfType(MAP_EDIT_VIEW)
+        // TODO uncomment
+        // this.app.workspace.detachLeavesOfType(MAP_EDIT_VIEW)
         this.preview?.disconnect()
     }
 }
