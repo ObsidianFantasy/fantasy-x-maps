@@ -21,9 +21,7 @@ export default function MapMarkdownPostProcess(
         const link = file_embed.getAttr('src')
         // const alt = file_embed.getAttr('alt') // TODO use alt later to label maps
 
-        // TODO create map source pattern
-        // const is_map = /^[a-zA-Z0-9 _-]+\.map(\#.+)?$/.test(link || '')
-        const is_map = /^[a-zA-Z0-9 _-]+\.map$/.test(link || '')
+        const is_map = /^[a-zA-Z0-9 _-]+\.map(\#.+)?$/.test(link || '')
 
         if (is_map) {
             ctx.addChild(new MapDisplay(file_embed))
