@@ -27,4 +27,5 @@ data.json
 */.obsidian/workspace.json
 
 # Plugin Generated
-*/.obsidian/plugins/generation/manifest.json
+*/.obsidian/plugins/generation/*
+!*/.obsidian/plugins/generation/.hotreload

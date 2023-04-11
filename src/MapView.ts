@@ -14,7 +14,7 @@ export default class MapFileView extends View {
     //
 
     constructor(leaf: WorkspaceLeaf) {
-        super(leaf)
+        super(leaf) 
     }
 
     getViewType(): string {
@@ -32,11 +32,10 @@ export default class MapFileView extends View {
     onload(): void {
         super.onload()
 
-        this.containerEl.createEl('h4', { text: 'Example view' })
-
         this.canvas = this.containerEl.createEl('canvas')
         this.ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D
         this.rendering = true
+
         this.render()
     }
 
@@ -53,6 +52,12 @@ export default class MapFileView extends View {
         if (!this.rendering) return
         requestAnimationFrame(this.render.bind(this))
 
+        this.canvas.width = this.containerEl.offsetWidth
+        this.canvas.height = this.containerEl.offsetHeight
+
         // TODO render here
+
+        this.ctx.fillStyle = 'black'
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
     }
 }

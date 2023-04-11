@@ -21,31 +21,12 @@ export default class MapFileView extends TextFileView {
     onload(): void {
         super.onload()
 
+        // Set padding of .view-content child to zero
+        this.containerEl.children[1].setAttr('style', 'padding:0px')
+
+        // Add map to current view body
         this.contentEl.appendChild(this.map.containerEl)
         this.map.onload()
-        
-        // const leaf = this.app.workspace.getLeaf('tab')
-
-        // leaf.setViewState({
-        //     type: 'map-view',
-        //     active: true
-        // })
-
-        // console.log()
-
-        // const leaf = this.app.workspace.createLeafInParent(this.leaf, 0)
-
-        // console.log(leaf)
-
-        // this.app.workspace.iterateAllLeaves((leaf) => {
-        //     console.log(leaf.getDisplayText())
-        // })
-
-
-        // this.contentEl.
-        // this.leaf.detach()
-
-        // this.leaf.getRoot(new Component(MapView))
     }
 
     onunload(): void {
