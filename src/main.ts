@@ -6,9 +6,11 @@ import MapView from './MapView'
 import MapMPP from './MapMPP'
 
 import { MAP_EDIT_VIEW, FILE_FORMAT, MAP_VIEW } from './const'
+import { PreviewObserver } from './MapPreview'
 
 export default class MapPlugin extends Plugin {
     settings: {}
+    preview: MutationObserver
 
     addRibbon() {
         this.addRibbonIcon('map', 'Create map fragment', () =>
@@ -24,9 +26,13 @@ export default class MapPlugin extends Plugin {
         this.registerMarkdownPostProcessor(MapMPP)
 
         this.addRibbon()
+
+        this.preview = PreviewObserver()
+        this.preview.observe(document, { childList: true, subtree: true })
     }
 
     onunload() {
         this.app.workspace.detachLeavesOfType(MAP_EDIT_VIEW)
+        this.preview?.disconnect()
     }
 }

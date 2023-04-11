@@ -14,9 +14,10 @@ export default class MapFileView extends TextFileView {
     onload(): void {
         super.onload()
 
-        const container = this.containerEl.children[1]
-        container.empty()
-        container.createEl('h4', { text: 'Example view' })
+        let map = this.addChild(new MapView(this.leaf))
+
+        // this.contentEl.
+        // this.leaf.detach()
 
         // this.leaf.getRoot(new Component(MapView))
     }

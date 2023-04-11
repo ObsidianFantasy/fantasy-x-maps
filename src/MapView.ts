@@ -32,6 +32,10 @@ export default class MapFileView extends ItemView {
     onload(): void {
         super.onload()
 
+        const container = this.containerEl.children[1]
+        container.empty()
+        container.createEl('h4', { text: 'Example view' })
+
         this.canvas = this.contentEl.createEl('canvas')
         this.ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D
         this.rendering = true
