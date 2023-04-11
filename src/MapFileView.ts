@@ -30,15 +30,15 @@ export default class MapFileView extends TextFileView {
     //
 
     getViewData(): string {
-        console.log('get')
+        // console.log('get')
         return '{}'
     }
 
     setViewData(data: string, clear: boolean): void {
-        console.log('set', data, clear)
+        // console.log('set', data, clear)
     }
 
     clear(): void {
-        console.log('clear')
+        // console.log('clear')
     }
 }
