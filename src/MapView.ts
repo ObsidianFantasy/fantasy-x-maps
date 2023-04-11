@@ -1,21 +1,33 @@
-import { FileView, getIcon, ItemView, TextFileView, WorkspaceLeaf } from 'obsidian'
-import { MAP_EDIT_VIEW } from './const'
+import { ItemView, WorkspaceLeaf } from 'obsidian'
+import { MAP_VIEW } from './const'
 
 /**
- * 
+ * View File
  */
 export default class MapFileView extends ItemView {
-    getViewType(): string {
-        return 'map-view'
-    }
-
-    getDisplayText(): string {
-        throw new Error('Method not implemented.')
-    }
-
     rendering: boolean
     canvas: HTMLCanvasElement
     ctx: CanvasRenderingContext2D
+
+    ////////////////////
+    // Implementation
+    //
+
+    constructor(leaf: WorkspaceLeaf) {
+        super(leaf)
+    }
+
+    getViewType(): string {
+        return MAP_VIEW
+    }
+
+    getDisplayText(): string {
+        return 'Map Preview'
+    }
+
+    /////////////
+    // Loading
+    //
 
     onload(): void {
         super.onload()
@@ -35,7 +47,7 @@ export default class MapFileView extends ItemView {
     // Render
     //
 
-    render() {
+    render(): void {
         if (!this.rendering) return
         requestAnimationFrame(this.render.bind(this))
 

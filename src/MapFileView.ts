@@ -1,15 +1,12 @@
-import { FileView, getIcon, TextFileView, WorkspaceLeaf } from 'obsidian'
+import { TextFileView } from 'obsidian'
 import { MAP_EDIT_VIEW } from './const'
+import MapView from './MapView'
 
 /**
  * ### Map File View
  * @description File View that manipulates the map view
  */
 export default class MapFileView extends TextFileView {
-    rendering: boolean
-    canvas: HTMLCanvasElement
-    ctx: CanvasRenderingContext2D
-
     getViewType(): string {
         return MAP_EDIT_VIEW
     }
@@ -17,15 +14,15 @@ export default class MapFileView extends TextFileView {
     onload(): void {
         super.onload()
 
-        this.canvas = this.contentEl.createEl('canvas')
-        this.ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D
-        this.rendering = true
-        this.render()
+        const container = this.containerEl.children[1]
+        container.empty()
+        container.createEl('h4', { text: 'Example view' })
+
+        // this.leaf.getRoot(new Component(MapView))
     }
 
     onunload(): void {
         super.onunload()
-        this.rendering = false
     }
 
     //////////////////////
@@ -43,16 +40,5 @@ export default class MapFileView extends TextFileView {
 
     clear(): void {
         console.log('clear')
-    }
-
-    ////////////
-    // Render
-    //
-
-    render() {
-        if (!this.rendering) return
-        requestAnimationFrame(this.render.bind(this))
-
-        // TODO render here
     }
 }
