@@ -1,4 +1,4 @@
-import { Menu, Notice, Plugin, Workspace } from 'obsidian'
+import { Plugin } from 'obsidian'
 import createFile from './lib/createFile'
 
 import MapFileView from './MapFileView'
@@ -17,12 +17,11 @@ export default class MapPlugin extends Plugin {
     }
 
     async onload() {
-        console.log('new session loaded')
-        
         this.registerView(MAP_EDIT_VIEW, (leaf) => new MapFileView(leaf))
         this.registerView(MAP_VIEW, (leaf) => new MapView(leaf))
 
         this.registerExtensions([FILE_FORMAT], MAP_EDIT_VIEW)
+
         this.registerMarkdownPostProcessor(MapMPP)
 
         this.addRibbon()
