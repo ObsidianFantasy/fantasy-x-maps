@@ -2,7 +2,7 @@ import { MarkdownPostProcessorContext } from 'obsidian'
 
 /**
  * ### Map Markdown Post Processor
- * @description MPP that replaces map images with file embeds
+ * @description MPP that replaces map file embeds with map images
  */
 export default function post_process (el: HTMLElement, ctx: MarkdownPostProcessorContext) {
     const embeds = el.querySelectorAll(".internal-embed")
