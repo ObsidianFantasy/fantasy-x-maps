@@ -1,10 +1,10 @@
-import { ItemView, WorkspaceLeaf } from 'obsidian'
+import { View, WorkspaceLeaf } from 'obsidian'
 import { MAP_VIEW } from './const'
 
 /**
  * View File
  */
-export default class MapFileView extends ItemView {
+export default class MapFileView extends View {
     rendering: boolean
     canvas: HTMLCanvasElement
     ctx: CanvasRenderingContext2D
@@ -32,11 +32,9 @@ export default class MapFileView extends ItemView {
     onload(): void {
         super.onload()
 
-        const container = this.containerEl.children[1]
-        container.empty()
-        container.createEl('h4', { text: 'Example view' })
+        this.containerEl.createEl('h4', { text: 'Example view' })
 
-        this.canvas = this.contentEl.createEl('canvas')
+        this.canvas = this.containerEl.createEl('canvas')
         this.ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D
         this.rendering = true
         this.render()
