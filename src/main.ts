@@ -21,7 +21,6 @@ export default class MapPlugin extends Plugin {
         this.registerView(MAP_VIEW, (leaf) => new MapView(leaf))
 
         this.registerExtensions([FILE_FORMAT], MAP_EDIT_VIEW)
-
         this.registerMarkdownPostProcessor(MapMPP)
 
         this.addRibbon()

@@ -11,13 +11,30 @@ export class MapDisplay extends MarkdownRenderChild {
     }
 
     onload() {
-        // TODO replace with map view
-        console.log('onload')
-        // this.containerEl.replaceWith('MAP DISPLAY GOES HERE')
+        super.onload()
+        console.log(this.containerEl.classList)
 
-        const emojiEl = this.containerEl.createSpan({
-            text: 'Text',
-        })
-        this.containerEl.replaceWith(emojiEl)
+        // By removing the internal-embed class, this
+        // code prevents Obsidian from doing any post-
+        // processes after we assign it the map
+        this.containerEl.removeClass('internal-embed')
+        this.containerEl.addClass('map-embed')
+
+        // TODO remove later with custom css
+        this.containerEl.addClass('file-embed', 'mod-generic')
+
+        // console.log(this.containerEl)
+
+        const emojiEl = this.containerEl.createSpan({text: 'TODO MAP DISPLAY GOES HERE'})
+
+        // this.containerEl.replaceChildren('Map goes here')
+
+        // console.log(this.containerEl.textContent)
+
+        // console.log(this.containerEl.querySelector('*'))
+        // console.log(this.containerEl.childNodes[0].)
+
+        // this.containerEl.firstChild?.replaceWith(createSpan({text: 'MAP DISPLAY GOES HERE'}))
+        this.containerEl.replaceChildren(emojiEl)
     }
 }

@@ -9,26 +9,24 @@ export default function MapMarkdownPostProcess(
     el: HTMLElement,
     ctx: MarkdownPostProcessorContext
 ) {
-    // const embeds = el.querySelectorAll('code')
+    const embeds = el.querySelectorAll(
+        'span.internal-embed'
+    ) as NodeListOf<HTMLElement>
 
-    // for (let i = 0; i < embeds.length; i++) {
-    //     const embed = embeds.item(i)
+    // console.log(ctx.sourcePath)
 
-    //     const link = embed.getAttr('src')
-    //     const alt = embed.getAttr('alt')
+    for (let i = 0; i < embeds.length; i++) {
+        const file_embed = embeds.item(i)
 
-    //     ctx.addChild(new MapDisplay(embed as HTMLElement))
-    // }
+        const link = file_embed.getAttr('src')
+        // const alt = file_embed.getAttr('alt') // TODO use alt later to label maps
 
-    const codeblocks = el.querySelectorAll('code')
+        // TODO create map source pattern
+        // const is_map = /^[a-zA-Z0-9 _-]+\.map(\#.+)?$/.test(link || '')
+        const is_map = /^[a-zA-Z0-9 _-]+\.map$/.test(link || '')
 
-    for (let index = 0; index < codeblocks.length; index++) {
-        const codeblock = codeblocks.item(index)
-        const text = codeblock.innerText.trim()
-        const isEmoji = text[0] === ':' && text[text.length - 1] === ':'
-
-        if (isEmoji) {
-            ctx.addChild(new MapDisplay(codeblock))
+        if (is_map) {
+            ctx.addChild(new MapDisplay(file_embed))
         }
     }
 }
