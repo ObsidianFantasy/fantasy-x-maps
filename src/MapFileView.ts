@@ -1,12 +1,12 @@
 import { TextFileView, WorkspaceLeaf } from 'obsidian'
 import { MAP_EDIT_VIEW } from './const'
-import MapView from './MapView'
+import { MapView } from './MapView'
 
 /**
  * ### Map File View
  * @description File View that manipulates the map view
  */
-export default class MapFileView extends TextFileView {
+export class MapFileView extends TextFileView {
     map: MapView
 
     constructor(leaf: WorkspaceLeaf) {

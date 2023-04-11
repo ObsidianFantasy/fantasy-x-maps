@@ -1,9 +1,9 @@
 import { Plugin } from 'obsidian'
 import createFile from './lib/createFile'
 
-import MapFileView from './MapFileView'
-import MapView from './MapView'
-import MapMPP from './MapMPP'
+import { MapFileView } from './MapFileView'
+import { MapView } from './MapView'
+import { MapMarkdownPostProcess } from './MapMarkdown'
 
 import { MAP_EDIT_VIEW, FILE_FORMAT, MAP_VIEW } from './const'
 import { PreviewObserver } from './MapPreview'
@@ -23,7 +23,7 @@ export default class MapPlugin extends Plugin {
         this.registerView(MAP_VIEW, (leaf) => new MapView(leaf))
 
         this.registerExtensions([FILE_FORMAT], MAP_EDIT_VIEW)
-        this.registerMarkdownPostProcessor(MapMPP)
+        this.registerMarkdownPostProcessor(MapMarkdownPostProcess)
 
         this.addRibbon()
 

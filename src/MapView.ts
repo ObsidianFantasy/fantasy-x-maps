@@ -2,9 +2,9 @@ import { View, WorkspaceLeaf } from 'obsidian'
 import { MAP_VIEW } from './const'
 
 /**
- * View File
+ * ### The Core Renderer of the Map
  */
-export default class MapFileView extends View {
+export class MapView extends View {
     rendering: boolean
     canvas: HTMLCanvasElement
     ctx: CanvasRenderingContext2D
