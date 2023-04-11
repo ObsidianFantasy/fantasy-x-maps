@@ -1,5 +1,6 @@
 import { View, WorkspaceLeaf } from 'obsidian'
 import { MAP_VIEW } from './const'
+import { Polygons } from './render/Polygons'
 
 /**
  * ### The Core Renderer of the Map
@@ -10,11 +11,18 @@ export class MapView extends View {
     ctx: CanvasRenderingContext2D
 
     ////////////////////
+    // Render specific
+    //
+
+    polygons: Polygons
+
+    ////////////////////
     // Implementation
     //
 
     constructor(leaf: WorkspaceLeaf) {
-        super(leaf) 
+        super(leaf)
+        this.polygons = new Polygons()
     }
 
     getViewType(): string {
@@ -34,6 +42,7 @@ export class MapView extends View {
 
         this.canvas = this.containerEl.createEl('canvas')
         this.ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D
+        this.ctx.imageSmoothingEnabled = true
         this.rendering = true
 
         this.render()
@@ -55,9 +64,6 @@ export class MapView extends View {
         this.canvas.width = this.containerEl.offsetWidth
         this.canvas.height = this.containerEl.offsetHeight
 
-        // TODO render here
-
-        this.ctx.fillStyle = 'black'
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
+        this.polygons.render(this.canvas, this.ctx)
     }
 }

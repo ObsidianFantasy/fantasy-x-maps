@@ -40,7 +40,7 @@ export class MapDisplay extends MarkdownRenderChild {
 
     onload() {
         super.onload()
-        console.log(this.containerEl.classList)
+        // console.log(this.containerEl.classList)
 
         // By removing the .internal-embed class, this
         // code prevents Obsidian from doing any post-
