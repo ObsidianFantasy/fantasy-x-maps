@@ -16,3 +16,17 @@ Obsidian Plugin that supports the creation and edit of maps.
 | `render/Polygons.ts` | TODO |
 | **Input Logic** | |
 | `Controller.ts` | Operative centre for mouse and input events on a MapView, handled by the MapFileView |
+
+## To-Do
+
+- [x] Map is another File View
+- [ ] Map is stored as chunks
+- [ ] Map can be displayed
+- [ ] Map Read/ Write can be saved
+- [ ] Map can be dragged into another map
+- [ ] Map can be edited: Heightmap
+- [ ] Map can be edited: States, Nations and Political Borders
+- [ ] Map can be edited: Refer to markdown notes, pins, etc.
+- [ ] Map can be edited: PATHS: Rivers, Path & Routes
+
+Idea is to follow Obsidian's [Atomic Notes](https://publish.obsidian.md/alexisrondeau/Atomic+notes) principle with maps: Every island, continent, state, etc. should be 'atomic', nations should be rather markdown notes, that are simply 'referred to'
