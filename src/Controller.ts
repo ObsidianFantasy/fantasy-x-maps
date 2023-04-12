@@ -71,7 +71,17 @@ export class InputController {
     }
 
     onWheel(e: WheelEvent): any {
-        console.log(e)
+        const [x, y] = this.getCoordinates(e)
+        const [dx, dy] = [e.deltaX, e.deltaY]
+
+        // Use delta x offset to move the
+        // map in the x-direction
+        this.parent.offset[0] += dx
+
+        // Zoom Logic
+        this.parent.offset[2] *= Math.pow(1.01, dy / 8)
+
+        console.log(this.parent.offset[2])
     }
 
     onMouseUp(evt: MouseEvent) {
