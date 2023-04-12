@@ -1,9 +1,10 @@
 import { Delaunay, Voronoi } from 'd3-delaunay'
 import { MAP_CHUNK_SIZE, MAP_CHUNK_SPLIT_DIMENSION } from '../const'
+import { PolygonData } from './Data'
 
 export class PolygonChunk {
     position: number[]
-    sourcePoints: Delaunay.Point[]
+    source: PolygonData[]
     delaunay: Delaunay<Delaunay.Point>
     voronoi: Voronoi<Delaunay.Point>
 
@@ -11,23 +12,14 @@ export class PolygonChunk {
 
     constructor(x: number, y: number) {
         this.position = [x, y, 0]
-        this.sourcePoints = []
+        this.source = []
         this.height = []
 
-        for (let i = 0; i < MAP_CHUNK_SPLIT_DIMENSION; i++) {
-            for (let j = 0; j < MAP_CHUNK_SPLIT_DIMENSION; j++) {
-                const x = (i + .5) * 10 + Math.random() * 6 - 3
-                const y = (j + .5) * 10 + Math.random() * 6 - 3
+        this.generate()
+    }
 
-                this.addDot(x, y)
-            }
-        }
-
-        // for (let i = 0; i < Math.pow(MAP_CHUNK_SPLIT_DIMENSION, 2); i++) {
-        //     this.addDot(Math.random() * 160, Math.random() * 160)
-        // }
-
-        this.calculateVoronoi()
+    get sourcePoints(): Delaunay.Point[] {
+        return this.source.map((v) => [v.x, v.y])
     }
 
     calculateVoronoi() {
@@ -40,8 +32,25 @@ export class PolygonChunk {
         ])
     }
 
+    /**
+     * Fills chunk with equi-distant,
+     * but slightly random points
+     */
+    generate() {
+        for (let i = 0; i < MAP_CHUNK_SPLIT_DIMENSION; i++) {
+            for (let j = 0; j < MAP_CHUNK_SPLIT_DIMENSION; j++) {
+                const x = (i + 0.5) * 10 + Math.random() * 6 - 3
+                const y = (j + 0.5) * 10 + Math.random() * 6 - 3
+
+                this.addDot(x, y)
+            }
+        }
+
+        this.calculateVoronoi()
+    }
+
     addDot(x: number, y: number) {
-        this.sourcePoints.push([x, y] as Delaunay.Point)
+        this.source.push(new PolygonData({ x, y }))
         this.height.push(Math.random() * 256)
     }
 
