@@ -69,10 +69,8 @@ export class InputController {
 
         switch (this.strokeType) {
             case 'edit':
-                this.parent.polygons.addPoint(
-                    (x - this.parent.offset[0]) / this.parent.offset[2],
-                    (y - this.parent.offset[1]) / this.parent.offset[2]
-                )
+                const [ex, ey] = this.getAbsoluteCoordinates(x, y)
+                this.parent.polygons.addPoint(ex, ey)
                 break
         }
     }
@@ -88,10 +86,8 @@ export class InputController {
                 break
 
             case 'edit':
-                this.parent.polygons.addPoint(
-                    (x - this.parent.offset[0]) / this.parent.offset[2],
-                    (y - this.parent.offset[1]) / this.parent.offset[2]
-                )
+                const [ex, ey] = this.getAbsoluteCoordinates(x, y)
+                this.parent.polygons.addPoint(ex, ey)
                 break
         }
     }
@@ -118,8 +114,8 @@ export class InputController {
         // current offset, then move offset
         // depending on zoom delta
 
-        this.parent.offset[0] -= cx * dy / 1000
-        this.parent.offset[1] -= cy * dy / 1000
+        this.parent.offset[0] -= (cx * dy) / 1000
+        this.parent.offset[1] -= (cy * dy) / 1000
 
         // Recalculate voronoi
         this.parent.polygons.calculateVoronoi()
@@ -159,5 +155,12 @@ export class InputController {
         const x = evt.clientX - rect.left
         const y = evt.clientY - rect.top
         return [x, y]
+    }
+
+    getAbsoluteCoordinates(x: number, y: number): [number, number] {
+        return [
+            (x - this.parent.offset[0]) / this.parent.offset[2],
+            (y - this.parent.offset[1]) / this.parent.offset[2],
+        ]
     }
 }
