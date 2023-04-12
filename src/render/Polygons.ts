@@ -56,9 +56,11 @@ export class Polygons {
     }
 
     renderPolygons(parent: MapView) {
-        const { ctx } = parent
+        const { ctx, offset } = parent
 
-        ctx.strokeStyle = '#3f3f3f' // TODO set to a variable
+        ctx.translate(offset[0], offset[1])
+        // ctx.strokeStyle = '#3f3f3f' // TODO set to a variable
+
         for (let i = 0; i < this.delaunay?.points.length; i++) {
             ctx.beginPath()
             // ctx.fillStyle = `rgba(255, 255, 255, ${Math.random()})`
@@ -66,10 +68,12 @@ export class Polygons {
             this.voronoi.renderCell(i, ctx)
             ctx.fill()
         }
+
+        ctx.translate(-offset[0], -offset[1])
     }
 
     render(parent: MapView) {
-        // this.renderPolygons(parent)
-        this.renderDebugPoints(parent)
+        this.renderPolygons(parent)
+        // this.renderDebugPoints(parent)
     }
 }
