@@ -97,7 +97,7 @@ export class InputController {
     }
 
     onWheel(e: WheelEvent): any {
-        // Mouse Coordinates
+        // Mouse Coordinates/ Zoom Focus
         const [x, y] = this.getCoordinates(e)
 
         // Mouse Wheel Delta
@@ -111,15 +111,15 @@ export class InputController {
         this.parent.offset[0] += dx
 
         // Zoom Logic
-        this.parent.offset[2] *= Math.pow(1.01, dy)
+        this.parent.offset[2] += dy / 1000
 
         // Offset Switch
         // Create Line between (0, 0) and
         // current offset, then move offset
         // depending on zoom delta
 
-        // TODO
-        console.log(cx, cy)
+        this.parent.offset[0] -= cx * dy / 1000
+        this.parent.offset[1] -= cy * dy / 1000
 
         // Recalculate voronoi
         this.parent.polygons.calculateVoronoi()
