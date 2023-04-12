@@ -49,13 +49,25 @@ export class Polygons {
     }
 
     calculateVoronoi() {
+        const [mix, miy, max, may] = [
+            this.getSourcePoints()
+                .map((v) => v[0])
+                .reduce((p, c) => Math.min(p, c)) - MAP_CHUNK_SIZE,
+            this.getSourcePoints()
+                .map((v) => v[1])
+                .reduce((p, c) => Math.min(p, c)) - MAP_CHUNK_SIZE,
+            this.getSourcePoints()
+                .map((v) => v[0])
+                .reduce((p, c) => Math.max(p, c)) + MAP_CHUNK_SIZE,
+            this.getSourcePoints()
+                .map((v) => v[1])
+                .reduce((p, c) => Math.max(p, c)) + MAP_CHUNK_SIZE,
+        ]
         this.delaunay = Delaunay.from(this.getSourcePoints())
-        this.voronoi = this.delaunay.voronoi([0, 0, 6 * 160, 3 * 160])
+        this.voronoi = this.delaunay.voronoi([mix, miy, max, may])
     }
 
     addPoint(x: number, y: number) {
-        
-
         const [chunk_x, chunk_y] = [
             Math.floor(x / MAP_CHUNK_SIZE),
             Math.floor(y / MAP_CHUNK_SIZE),
@@ -104,7 +116,7 @@ export class Polygons {
     }
 
     render(parent: MapView) {
-        // this.renderPolygons(parent)
-        this.renderDebugPoints(parent)
+        this.renderPolygons(parent)
+        // this.renderDebugPoints(parent)
     }
 }
