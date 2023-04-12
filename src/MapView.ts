@@ -1,6 +1,6 @@
 import { View, WorkspaceLeaf } from 'obsidian'
 import { MAP_VIEW } from './const'
-import { Polygons } from './render/Polygons'
+import { PolygonHandler } from './polygons/Handler'
 import { InputController } from './Controller'
 
 /**
@@ -23,7 +23,7 @@ export class MapView extends View {
     /**
      * Map Polygons, the base unit
      */
-    polygons: Polygons
+    polygons: PolygonHandler
 
     ////////////////////
     // Implementation
@@ -31,7 +31,7 @@ export class MapView extends View {
 
     constructor(leaf: WorkspaceLeaf) {
         super(leaf)
-        this.polygons = new Polygons(this)
+        this.polygons = new PolygonHandler(this)
     }
 
     getViewType(): string {

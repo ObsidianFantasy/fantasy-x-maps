@@ -23,6 +23,10 @@ export class PolygonChunk {
             }
         }
 
+        // for (let i = 0; i < Math.pow(MAP_CHUNK_SPLIT_DIMENSION, 2); i++) {
+        //     this.addDot(Math.random() * 160, Math.random() * 160)
+        // }
+
         this.calculateVoronoi()
     }
 

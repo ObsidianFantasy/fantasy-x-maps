@@ -1,18 +1,10 @@
 import { Delaunay, Voronoi } from 'd3-delaunay'
-import { PolygonChunk } from './PolygonChunk'
+import { PolygonChunk } from './Chunk'
 import { MAP_CHUNK_SIZE } from '../const'
 import { MapView } from '../MapView'
+import { PolygonData } from './Data'
 
-export class PolygonData {
-    /**
-     * [-10.000 meters; +100.000 meters]
-     */
-    height = 0
-
-    // TODO Biome, Nations, Climate+Rain+Wind+Pressure Generations, et c.
-}
-
-export class Polygons {
+export class PolygonHandler {
     parent: MapView
     polygons: PolygonChunk[]
     delaunay: Delaunay<Delaunay.Point>
@@ -126,7 +118,7 @@ export class Polygons {
 
     render(parent: MapView) {
         this.renderPolygons(parent)
-        // this.renderDebugPoints(parent)
+        this.renderDebugPoints(parent)
     }
 
     /////////////////////
