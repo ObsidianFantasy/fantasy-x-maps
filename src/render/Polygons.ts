@@ -4,26 +4,29 @@ import { MAP_CHUNK_SIZE } from '../const'
 import { MapView } from '../MapView'
 
 export class Polygons {
+    parent: MapView
     polygons: PolygonChunk[]
     delaunay: Delaunay<Delaunay.Point>
     voronoi: Voronoi<Delaunay.Point>
 
-    constructor() {
-        // this.polygons = []
-
-        // for (let x = 0; x < 6; x++) {
-        //     for (let y = 0; y < 3; y++) {
-        //         this.polygons.push(new PolygonChunk(x, y))
-        //     }
-        // }
+    constructor(parent: MapView) {
+        this.parent = parent
 
         this.polygons = []
+
+        for (let x = 2; x < 4; x++) {
+            for (let y = 1; y < 3; y++) {
+                this.polygons.push(new PolygonChunk(x, y))
+            }
+        }
+
+        // this.polygons = []
 
         this.calculateVoronoi()
     }
 
     getSourcePoints(): Delaunay.Point[] {
-        const points: Delaunay.Point[] = []
+        let points: Delaunay.Point[] = []
 
         for (let i = 0; i < this.polygons.length; i++) {
             const chunk = this.polygons[i]
@@ -35,6 +38,12 @@ export class Polygons {
                 ])
             }
         }
+
+        // Scale points
+        points = points.map((p) => [
+            p[0] * this.parent.offset[2],
+            p[1] * this.parent.offset[2],
+        ])
 
         return points
     }
@@ -57,9 +66,9 @@ export class Polygons {
             chunk = new PolygonChunk(chunk_x, chunk_y)
             this.polygons.push(chunk)
         }
-        chunk.addDot(rx, ry)
+        // chunk.addDot(rx, ry)
         this.calculateVoronoi()
-        console.log(rx, ry, x, y)
+        // console.log(rx, ry, x, y)
     }
 
     // Render
@@ -79,14 +88,14 @@ export class Polygons {
         const { ctx, offset } = parent
 
         ctx.translate(offset[0], offset[1])
-        // ctx.strokeStyle = '#3f3f3f' // TODO set to a variable
+        ctx.strokeStyle = '#3f3f3f' // TODO set to a variable
 
         for (let i = 0; i < this.delaunay?.points.length; i++) {
             ctx.beginPath()
             // ctx.fillStyle = `rgba(255, 255, 255, ${Math.random()})`
-            ctx.fillStyle = `${i % 2 == 0 ? 'white' : 'black'}`
+            // ctx.fillStyle = `${i % 2 == 0 ? 'white' : 'black'}`
             this.voronoi.renderCell(i, ctx)
-            ctx.fill()
+            ctx.stroke()
         }
 
         ctx.translate(-offset[0], -offset[1])

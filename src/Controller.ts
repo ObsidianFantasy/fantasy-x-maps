@@ -111,7 +111,7 @@ export class InputController {
         this.parent.offset[0] += dx
 
         // Zoom Logic
-        this.parent.offset[2] += dy
+        this.parent.offset[2] *= Math.pow(1.01, dy)
 
         // Offset Switch
         // Create Line between (0, 0) and
@@ -120,6 +120,9 @@ export class InputController {
 
         // TODO
         console.log(cx, cy)
+
+        // Recalculate voronoi
+        this.parent.polygons.calculateVoronoi()
     }
 
     onMouseUp(evt: MouseEvent) {

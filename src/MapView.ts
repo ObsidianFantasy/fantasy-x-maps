@@ -33,7 +33,7 @@ export class MapView extends View {
     constructor(leaf: WorkspaceLeaf) {
         super(leaf)
         this.inputController = new InputController(this)
-        this.polygons = new Polygons()
+        this.polygons = new Polygons(this)
     }
 
     getViewType(): string {
