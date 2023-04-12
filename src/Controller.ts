@@ -35,6 +35,7 @@ export class InputController {
             this.onMouseDown(e)
         )
         addEventListener('mousemove', (e) => this.onMouseMove(e))
+        addEventListener('wheel', (e) => this.onWheel(e))
         addEventListener('mouseup', (e) => this.onMouseUp(e))
         addEventListener('keypress', (e) => this.onKeyPress(e))
     }
@@ -67,6 +68,10 @@ export class InputController {
                 // TODO add stroke edit
                 break
         }
+    }
+
+    onWheel(e: WheelEvent): any {
+        console.log(e)
     }
 
     onMouseUp(evt: MouseEvent) {
