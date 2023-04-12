@@ -13,7 +13,7 @@ export class PolygonData {
 export class MapRender {
     parent: MapView
     polygons: Polygons
-    data: Map<number, PolygonData> // TODO architecture
+    data: Map<string, PolygonData> // TODO architecture
 
     constructor(parent: MapView) {
         this.parent = parent
@@ -21,6 +21,6 @@ export class MapRender {
     }
 
     render() {
-        // TODO
+        
     }
 }

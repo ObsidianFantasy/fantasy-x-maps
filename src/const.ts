@@ -13,8 +13,8 @@ export const MAP_VIEW = 'map-view'
 
 /**
  * In pixels, how big a
- * chunk is to render: N *
- * N
+ * chunk is to render:
+ * N * N
  */
 export const MAP_CHUNK_SIZE = 160
 
@@ -24,3 +24,10 @@ export const MAP_CHUNK_SIZE = 160
  * N * N
  */
 export const MAP_CHUNK_RECURSION_SIZE = 4
+
+/**
+ * Storing so many delaunay
+ * polygons per chunk:
+ * N * N
+ */
+export const MAP_CHUNK_SPLIT_DIMENSION = 16

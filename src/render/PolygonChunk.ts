@@ -1,5 +1,5 @@
 import { Delaunay, Voronoi } from 'd3-delaunay'
-import { MAP_CHUNK_SIZE } from '../const'
+import { MAP_CHUNK_SIZE, MAP_CHUNK_SPLIT_DIMENSION } from '../const'
 
 export class PolygonChunk {
     position: number[]
@@ -14,8 +14,8 @@ export class PolygonChunk {
         this.sourcePoints = []
         this.height = []
 
-        for (let i = 0; i < 16; i++) {
-            for (let j = 0; j < 16; j++) {
+        for (let i = 0; i < MAP_CHUNK_SPLIT_DIMENSION; i++) {
+            for (let j = 0; j < MAP_CHUNK_SPLIT_DIMENSION; j++) {
                 const x = (i + .5) * 10 + Math.random() * 6 - 3
                 const y = (j + .5) * 10 + Math.random() * 6 - 3
 

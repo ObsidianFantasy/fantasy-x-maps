@@ -11,17 +11,7 @@ export class Polygons {
 
     constructor(parent: MapView) {
         this.parent = parent
-
-        this.polygons = []
-
-        for (let x = 2; x < 4; x++) {
-            for (let y = 1; y < 3; y++) {
-                this.polygons.push(new PolygonChunk(x, y))
-            }
-        }
-
-        // this.polygons = []
-
+        this.polygons = [new PolygonChunk(0, 0)]
         this.calculateVoronoi()
     }
 
