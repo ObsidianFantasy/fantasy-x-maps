@@ -10,7 +10,6 @@ export class MapView extends View {
     rendering: boolean
     canvas: HTMLCanvasElement
     ctx: CanvasRenderingContext2D
-    inputController: InputController
 
     ////////////////////
     // Render specific
@@ -32,7 +31,6 @@ export class MapView extends View {
 
     constructor(leaf: WorkspaceLeaf) {
         super(leaf)
-        this.inputController = new InputController(this)
         this.polygons = new Polygons(this)
     }
 
@@ -56,12 +54,10 @@ export class MapView extends View {
         this.ctx.imageSmoothingEnabled = true
         this.rendering = true
 
-        this.inputController.onload()
         this.render()
     }
 
     onunload(): void {
-        this.inputController.onunload()
         super.onunload()
         this.rendering = false
     }

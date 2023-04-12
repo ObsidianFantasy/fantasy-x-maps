@@ -1,6 +1,7 @@
 import { TextFileView, WorkspaceLeaf } from 'obsidian'
 import { MAP_EDIT_VIEW } from './const'
 import { MapView } from './MapView'
+import { InputController } from './Controller'
 
 /**
  * ### Map File View
@@ -8,10 +9,12 @@ import { MapView } from './MapView'
  */
 export class MapFileView extends TextFileView {
     map: MapView
+    inputController: InputController
 
     constructor(leaf: WorkspaceLeaf) {
         super(leaf)
         this.map = new MapView(this.leaf)
+        this.inputController = new InputController(this.map)
     }
 
     getViewType(): string {
@@ -27,9 +30,12 @@ export class MapFileView extends TextFileView {
         // Add map to current view body
         this.contentEl.appendChild(this.map.containerEl)
         this.map.onload()
+
+        this.inputController.onload()
     }
 
     onunload(): void {
+        this.inputController.onunload()
         super.onunload()
         this.map.onunload()
     }
