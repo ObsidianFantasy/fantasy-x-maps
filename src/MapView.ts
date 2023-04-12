@@ -24,6 +24,13 @@ export class MapView extends View {
      */
     polygons: Polygons
 
+    /**
+     * Is the current 'mouse stroke' active?
+     * Yes, if started in the map canvas.
+     * If not active, ignore followed events.
+     */
+    strokeActive = false
+
     ////////////////////
     // Implementation
     //
@@ -55,11 +62,16 @@ export class MapView extends View {
 
         this.render()
 
-        this.canvas.addEventListener('mousedown', this.onMouseDown)
+        this.canvas.addEventListener('mousedown', (e) => this.onMouseDown(e))
+        addEventListener('mousemove', (e) => this.onMouseMove(e))
+        addEventListener('mouseup', (e) => this.onMouseUp(e))
     }
 
     onunload(): void {
-        removeEventListener('mousedown', this.onMouseDown)
+        // TODO remove event listeners (cleanup)
+        // removeEventListener('mousedown', this.onMouseDown)
+        // removeEventListener('mousemove', this.onMouseMove)
+        // removeEventListener('mouseup', this.onMouseUp)
 
         super.onunload()
         this.rendering = false
@@ -70,7 +82,19 @@ export class MapView extends View {
     //
 
     onMouseDown(evt: MouseEvent) {
-        console.log(evt)
+        this.strokeActive = true
+    }
+
+    onMouseMove(evt: MouseEvent) {
+        if (!this.strokeActive) return
+
+        this.offset[0] += evt.movementX
+        this.offset[1] += evt.movementY
+    }
+
+    onMouseUp(evt: MouseEvent) {
+        if (!this.strokeActive) return
+        this.strokeActive = false
     }
 
     ////////////
