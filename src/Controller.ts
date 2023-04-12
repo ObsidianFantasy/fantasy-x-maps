@@ -104,6 +104,7 @@ export class InputController {
         // current offset, then move offset
         // depending on zoom delta
 
+        // TODO
         console.log(cx, cy)
     }
 
