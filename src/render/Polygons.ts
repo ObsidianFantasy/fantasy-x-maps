@@ -17,7 +17,7 @@ export class Polygons {
         //     }
         // }
 
-        this.polygons = [new PolygonChunk(0, 0), new PolygonChunk(0, 1), new PolygonChunk(2, 2)]
+        this.polygons = []
 
         this.calculateVoronoi()
     }
@@ -44,6 +44,26 @@ export class Polygons {
         this.voronoi = this.delaunay.voronoi([0, 0, 6 * 160, 3 * 160])
     }
 
+    addPoint(x: number, y: number) {
+        const [chunk_x, chunk_y] = [
+            Math.floor(x / MAP_CHUNK_SIZE),
+            Math.floor(y / MAP_CHUNK_SIZE),
+        ]
+        const [rx, ry] = [x % MAP_CHUNK_SIZE, y % MAP_CHUNK_SIZE]
+        let chunk = this.polygons.find(
+            (v) => v.position[0] == chunk_x && v.position[1] == chunk_y
+        )
+        if (!chunk) {
+            chunk = new PolygonChunk(chunk_x, chunk_y)
+            this.polygons.push(chunk)
+        }
+        chunk.addDot(rx, ry)
+        this.calculateVoronoi()
+        console.log(rx, ry, x, y)
+    }
+
+    // Render
+
     renderDebugPoints(parent: MapView) {
         const { ctx, offset } = parent
 
@@ -51,7 +71,7 @@ export class Polygons {
 
         const p = this.delaunay?.points
         for (let i = 0; i < p?.length; i += 2) {
-            ctx.fillRect(p[i] + offset[0], p[i+1] + offset[1], 1, 1)
+            ctx.fillRect(p[i] + offset[0], p[i + 1] + offset[1], 1, 1)
         }
     }
 

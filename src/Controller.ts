@@ -65,10 +65,21 @@ export class InputController {
 
     onMouseDown(evt: MouseEvent) {
         this.strokeActive = true
+        const [x, y] = this.getCoordinates(evt)
+
+        switch (this.strokeType) {
+            case 'edit':
+                this.parent.polygons.addPoint(
+                    x - this.parent.offset[0],
+                    y - this.parent.offset[1]
+                )
+                break
+        }
     }
 
     onMouseMove(evt: MouseEvent) {
         if (!this.strokeActive) return
+        const [x, y] = this.getCoordinates(evt)
 
         switch (this.strokeType) {
             case 'move':
@@ -77,7 +88,10 @@ export class InputController {
                 break
 
             case 'edit':
-                // TODO add stroke edit
+                this.parent.polygons.addPoint(
+                    x - this.parent.offset[0],
+                    y - this.parent.offset[1]
+                )
                 break
         }
     }
