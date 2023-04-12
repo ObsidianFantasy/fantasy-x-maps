@@ -32,20 +32,11 @@ export class InputController {
     //
 
     onload(): void {
-        this.parent.canvas.addEventListener('mousedown', (e) =>
-            this.onMouseDown(e)
-        )
-        // addEventListener('mousemove', this.onMouseMove)
-        // addEventListener('wheel', this.onWheel)
-        // addEventListener('mouseup', this.onMouseUp)
-        // addEventListener('keypress', this.onKeyPress)
-
+        this.addEvent('mousedown', this.onMouseDown, this.parent.canvas)
         this.addEvent('mousemove', this.onMouseMove)
         this.addEvent('wheel', this.onWheel)
         this.addEvent('mouseup', this.onMouseUp)
         this.addEvent('keypress', this.onKeyPress)
-
-        // this.parent.registerEvent()
     }
 
     onunload(): void {
@@ -54,9 +45,17 @@ export class InputController {
         }
     }
 
-    addEvent(type: keyof WindowEventMap, listener: (evt: any) => void) {
+    addEvent(
+        type: keyof WindowEventMap,
+        listener: (evt: any) => void,
+        el?: HTMLElement
+    ) {
         const binding = listener.bind(this)
-        addEventListener(type, binding)
+        if (el) {
+            el.addEventListener(type, binding)
+        } else {
+            addEventListener(type, binding)
+        }
         this.events.push([type, binding])
     }
 
