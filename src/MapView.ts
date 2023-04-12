@@ -1,6 +1,7 @@
 import { View, WorkspaceLeaf } from 'obsidian'
 import { MAP_VIEW } from './const'
 import { Polygons } from './render/Polygons'
+import { InputController } from './Controller'
 
 /**
  * ### The Core Renderer of the Map
@@ -9,6 +10,7 @@ export class MapView extends View {
     rendering: boolean
     canvas: HTMLCanvasElement
     ctx: CanvasRenderingContext2D
+    inputController: InputController
 
     ////////////////////
     // Render specific
@@ -24,19 +26,13 @@ export class MapView extends View {
      */
     polygons: Polygons
 
-    /**
-     * Is the current 'mouse stroke' active?
-     * Yes, if started in the map canvas.
-     * If not active, ignore followed events.
-     */
-    strokeActive = false
-
     ////////////////////
     // Implementation
     //
 
     constructor(leaf: WorkspaceLeaf) {
         super(leaf)
+        this.inputController = new InputController(this)
         this.polygons = new Polygons()
     }
 
@@ -60,41 +56,14 @@ export class MapView extends View {
         this.ctx.imageSmoothingEnabled = true
         this.rendering = true
 
+        this.inputController.onload()
         this.render()
-
-        this.canvas.addEventListener('mousedown', (e) => this.onMouseDown(e))
-        addEventListener('mousemove', (e) => this.onMouseMove(e))
-        addEventListener('mouseup', (e) => this.onMouseUp(e))
     }
 
     onunload(): void {
-        // TODO remove event listeners (cleanup)
-        // removeEventListener('mousedown', this.onMouseDown)
-        // removeEventListener('mousemove', this.onMouseMove)
-        // removeEventListener('mouseup', this.onMouseUp)
-
+        this.inputController.onunload()
         super.onunload()
         this.rendering = false
-    }
-
-    /////////////////
-    // Mouse Events
-    //
-
-    onMouseDown(evt: MouseEvent) {
-        this.strokeActive = true
-    }
-
-    onMouseMove(evt: MouseEvent) {
-        if (!this.strokeActive) return
-
-        this.offset[0] += evt.movementX
-        this.offset[1] += evt.movementY
-    }
-
-    onMouseUp(evt: MouseEvent) {
-        if (!this.strokeActive) return
-        this.strokeActive = false
     }
 
     ////////////
