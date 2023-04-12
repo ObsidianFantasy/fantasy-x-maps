@@ -3,11 +3,21 @@ import { PolygonChunk } from './PolygonChunk'
 import { MAP_CHUNK_SIZE } from '../const'
 import { MapView } from '../MapView'
 
+export class PolygonData {
+    /**
+     * [-10.000 meters; +100.000 meters]
+     */
+    height = 0
+
+    // TODO Biome, Nations, Climate+Rain+Wind+Pressure Generations, et c.
+}
+
 export class Polygons {
     parent: MapView
     polygons: PolygonChunk[]
     delaunay: Delaunay<Delaunay.Point>
     voronoi: Voronoi<Delaunay.Point>
+    data: Map<string, PolygonData> // TODO architecture
 
     constructor(parent: MapView) {
         this.parent = parent
@@ -57,23 +67,32 @@ export class Polygons {
         this.voronoi = this.delaunay.voronoi([mix, miy, max, may])
     }
 
-    addPoint(x: number, y: number) {
-        const [chunk_x, chunk_y] = [
-            Math.floor(x / MAP_CHUNK_SIZE),
-            Math.floor(y / MAP_CHUNK_SIZE),
-        ]
-        const [rx, ry] = [x % MAP_CHUNK_SIZE, y % MAP_CHUNK_SIZE]
+    pingChunk(cx: number, cy: number): PolygonChunk {
         let chunk = this.polygons.find(
-            (v) => v.position[0] == chunk_x && v.position[1] == chunk_y
+            (v) => v.position[0] == cx && v.position[1] == cy
         )
+
         if (!chunk) {
-            chunk = new PolygonChunk(chunk_x, chunk_y)
+            chunk = new PolygonChunk(cx, cy)
             this.polygons.push(chunk)
+            this.calculateVoronoi()
         }
-        // chunk.addDot(rx, ry)
-        this.calculateVoronoi()
-        // console.log(rx, ry, x, y)
+
+        return chunk
     }
+
+    // addPoint(x: number, y: number) {
+    //     const [chunk_x, chunk_y] = [
+    //         Math.floor(x / MAP_CHUNK_SIZE),
+    //         Math.floor(y / MAP_CHUNK_SIZE),
+    //     ]
+    //     const [rx, ry] = [x % MAP_CHUNK_SIZE, y % MAP_CHUNK_SIZE]
+    //     this.pingChunk(chunk_x, chunk_y)
+
+    //     // chunk.addDot(rx, ry)
+    //     this.calculateVoronoi()
+    //     // console.log(rx, ry, x, y)
+    // }
 
     // Render
 
@@ -108,5 +127,20 @@ export class Polygons {
     render(parent: MapView) {
         this.renderPolygons(parent)
         // this.renderDebugPoints(parent)
+    }
+
+    /////////////////////
+    // Map Manipulation
+    //
+
+    manipulateHeight({ x, y }) {
+        const [chunk_x, chunk_y] = [
+            Math.floor(x / MAP_CHUNK_SIZE),
+            Math.floor(y / MAP_CHUNK_SIZE),
+        ]
+        const [rx, ry] = [x % MAP_CHUNK_SIZE, y % MAP_CHUNK_SIZE]
+        const chunk = this.pingChunk(chunk_x, chunk_y)
+
+
     }
 }

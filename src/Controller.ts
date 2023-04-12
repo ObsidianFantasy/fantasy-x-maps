@@ -70,7 +70,9 @@ export class InputController {
         switch (this.strokeType) {
             case 'edit':
                 const [ex, ey] = this.getAbsoluteCoordinates(x, y)
-                this.parent.polygons.addPoint(ex, ey)
+                this.parent.polygons.manipulateHeight({
+                    x: ex, y: ey
+                })
                 break
         }
     }
@@ -87,7 +89,9 @@ export class InputController {
 
             case 'edit':
                 const [ex, ey] = this.getAbsoluteCoordinates(x, y)
-                this.parent.polygons.addPoint(ex, ey)
+                this.parent.polygons.manipulateHeight({
+                    x: ex, y: ey
+                })
                 break
         }
     }
