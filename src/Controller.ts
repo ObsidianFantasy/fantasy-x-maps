@@ -14,9 +14,7 @@ export class InputController {
     strokeActive = false
 
     /**
-     * Is the current 'mouse stroke' active?
-     * Yes, if started in the map canvas.
-     * If not active, ignore followed events.
+     * Stroke Type
      */
     strokeType = 'move'
 
@@ -66,7 +64,7 @@ export class InputController {
                 break
 
             case 'edit':
-                console.log('edit')
+                // TODO add stroke edit
                 break
         }
     }
@@ -81,7 +79,7 @@ export class InputController {
     //
 
     onKeyPress(evt: KeyboardEvent) {
-        console.log(evt.key)
+        // console.log(evt.key)
         switch (evt.key) {
             case 'm':
                 this.strokeType = 'move'
