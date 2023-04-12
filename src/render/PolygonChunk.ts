@@ -16,8 +16,8 @@ export class PolygonChunk {
 
         for (let i = 0; i < 16; i++) {
             for (let j = 0; j < 16; j++) {
-                const x = i * 10 + Math.random() * 6 - 3
-                const y = j * 10 + Math.random() * 6 - 3
+                const x = (i + .5) * 10 + Math.random() * 6 - 3
+                const y = (j + .5) * 10 + Math.random() * 6 - 3
 
                 this.addDot(x, y)
             }

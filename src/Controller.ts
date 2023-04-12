@@ -70,8 +70,8 @@ export class InputController {
         switch (this.strokeType) {
             case 'edit':
                 this.parent.polygons.addPoint(
-                    x - this.parent.offset[0],
-                    y - this.parent.offset[1]
+                    (x - this.parent.offset[0]) / this.parent.offset[2],
+                    (y - this.parent.offset[1]) / this.parent.offset[2]
                 )
                 break
         }
@@ -89,8 +89,8 @@ export class InputController {
 
             case 'edit':
                 this.parent.polygons.addPoint(
-                    x - this.parent.offset[0],
-                    y - this.parent.offset[1]
+                    (x - this.parent.offset[0]) / this.parent.offset[2],
+                    (y - this.parent.offset[1]) / this.parent.offset[2]
                 )
                 break
         }

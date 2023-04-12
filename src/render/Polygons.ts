@@ -54,6 +54,8 @@ export class Polygons {
     }
 
     addPoint(x: number, y: number) {
+        
+
         const [chunk_x, chunk_y] = [
             Math.floor(x / MAP_CHUNK_SIZE),
             Math.floor(y / MAP_CHUNK_SIZE),
@@ -102,7 +104,7 @@ export class Polygons {
     }
 
     render(parent: MapView) {
-        this.renderPolygons(parent)
-        // this.renderDebugPoints(parent)
+        // this.renderPolygons(parent)
+        this.renderDebugPoints(parent)
     }
 }
