@@ -14,6 +14,14 @@ export class MapView extends View {
     // Render specific
     //
 
+    /**
+     * [x-translate, y-translate, zoom-level]
+     */
+    offset = [0, 0, 1]
+
+    /**
+     * Map Polygons, the base unit
+     */
     polygons: Polygons
 
     ////////////////////
@@ -46,11 +54,23 @@ export class MapView extends View {
         this.rendering = true
 
         this.render()
+
+        this.canvas.addEventListener('mousedown', this.onMouseDown)
     }
 
     onunload(): void {
+        removeEventListener('mousedown', this.onMouseDown)
+
         super.onunload()
         this.rendering = false
+    }
+
+    /////////////////
+    // Mouse Events
+    //
+
+    onMouseDown(evt: MouseEvent) {
+        console.log(evt)
     }
 
     ////////////
@@ -64,6 +84,6 @@ export class MapView extends View {
         this.canvas.width = this.containerEl.offsetWidth
         this.canvas.height = this.containerEl.offsetHeight
 
-        this.polygons.render(this.canvas, this.ctx)
+        this.polygons.render(this)
     }
 }

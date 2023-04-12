@@ -1,6 +1,7 @@
 import { Delaunay, Voronoi } from 'd3-delaunay'
 import { PolygonChunk } from './PolygonChunk'
 import { MAP_CHUNK_SIZE } from '../const'
+import { MapView } from '../MapView'
 
 export class Polygons {
     polygons: PolygonChunk[]
@@ -43,16 +44,20 @@ export class Polygons {
         this.voronoi = this.delaunay.voronoi([0, 0, 6 * 160, 3 * 160])
     }
 
-    renderDebugPoints(ctx: CanvasRenderingContext2D) {
+    renderDebugPoints(parent: MapView) {
+        const { ctx, offset } = parent
+
         ctx.fillStyle = 'white'
 
         const p = this.delaunay?.points
         for (let i = 0; i < p?.length; i += 2) {
-            ctx.fillRect(p[i], p[i+1], 1, 1)
+            ctx.fillRect(p[i] + offset[0], p[i+1] + offset[1], 1, 1)
         }
     }
 
-    renderPolygons(ctx: CanvasRenderingContext2D) {
+    renderPolygons(parent: MapView) {
+        const { ctx } = parent
+
         ctx.strokeStyle = '#3f3f3f' // TODO set to a variable
         for (let i = 0; i < this.delaunay?.points.length; i++) {
             ctx.beginPath()
@@ -63,8 +68,8 @@ export class Polygons {
         }
     }
 
-    render(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
-        this.renderPolygons(ctx)
-        // this.renderDebugPoints(ctx)
+    render(parent: MapView) {
+        // this.renderPolygons(parent)
+        this.renderDebugPoints(parent)
     }
 }
