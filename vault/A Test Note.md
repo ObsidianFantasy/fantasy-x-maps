@@ -2,9 +2,9 @@
 code block
 ```
 
-Here's the Map from [[Unknown Map.map]]:
+Here's the Map from [[Map of World.map]]:
 
-![[Unknown Map.map]]
+![[Map of World.map]]
 
 `:test:` 
 
@@ -12,4 +12,4 @@ The following is an excerpt from [[Welcome to the Test Vault]]:
 
 ![[Welcome to the Test Vault]]
 
-![[Unknown Map.map#LinkToHeader]]
+![[Map of World.map#LinkToHeader]]
