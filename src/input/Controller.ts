@@ -17,7 +17,9 @@ export class InputController {
 
     constructor(parent: MapView) {
         this.view = parent
-        this.stroke = new MoveStroke(this.view)
+        // TODO move should be initial
+        // this.stroke = new MoveStroke(this.view)
+        this.stroke = new HeightEditStroke(this.view)
     }
 
     /////////////
