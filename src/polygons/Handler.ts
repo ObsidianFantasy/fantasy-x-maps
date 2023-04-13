@@ -83,15 +83,11 @@ export class PolygonHandler {
         return Array.from(neighbors)
     }
 
-    // TODO FIX
     findNeighboursData([x, y]) {
-        return this.findNeighbours([x, y]).map(n => {
+        return this.findNeighbours([x, y]).map((n) => {
             const chunk = this.chunkOfPoint[n]
-            const [nx, ny] = [
-                this.delaunay.points[n],
-                this.delaunay.points[n + 1],
-            ]
-            const [rx, ry] = getChunkRelative([nx, ny])
+            const [x, y] = this.points[n]
+            const [rx, ry] = getChunkRelative([x, y])
             return chunk.getTileData(rx, ry)
         })
     }
@@ -210,14 +206,15 @@ export class PolygonHandler {
             this.pingChunk(chunk_x + neighbours[0], chunk_y + neighbours[1])
 
         // Ping self
-        const chunk = this.pingChunk(chunk_x, chunk_y)
-        const tile = chunk.getTileData(rx, ry)
+        const tile = this.pingChunk(chunk_x, chunk_y).getTileData(rx, ry)
 
         // Get neighbours
         let height = tile.height
         let tiles = 1
 
         const neighbors = this.findNeighboursData([x, y])
+
+        console.log(neighbors.length)
 
         for (const poly of neighbors) {
             height += poly.height

@@ -38,4 +38,4 @@ export const MAP_CHUNK_SPLIT_DIMENSION = 16
  * 'close to border'
  * N
  */
-export const MAP_CHUNK_BORDER_CLOSE = MAP_CHUNK_SIZE * 0.1
+export const MAP_CHUNK_BORDER_CLOSE = MAP_CHUNK_SIZE * 0.15
