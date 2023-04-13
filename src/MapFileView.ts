@@ -1,7 +1,7 @@
 import { TextFileView, WorkspaceLeaf } from 'obsidian'
 import { MAP_EDIT_VIEW } from './const'
 import { MapView } from './MapView'
-import { InputController } from './Controller'
+import { InputController } from './input/Controller'
 
 /**
  * ### Map File View

@@ -1,30 +1,23 @@
 import { MapView } from '../MapView'
+import { HeightEditStroke, MoveStroke, Stroke } from './Stroke'
 
 /**
  * ### The Input Controller of the MapView
  */
 export class InputController {
-    parent: MapView
+    view: MapView
     events: [keyof WindowEventMap, any][] = []
 
-    /**
-     * Is the current 'mouse stroke' active?
-     * Yes, if started in the map canvas.
-     * If not active, ignore followed events.
-     */
-    strokeActive = false
-
-    /**
-     * Stroke Type
-     */
-    strokeType = 'move'
+    strokeTypeActive = -1
+    stroke: Stroke
 
     ////////////////////
     // Implementation
     //
 
     constructor(parent: MapView) {
-        this.parent = parent
+        this.view = parent
+        this.stroke = new MoveStroke(this.view)
     }
 
     /////////////
@@ -32,7 +25,7 @@ export class InputController {
     //
 
     onload(): void {
-        this.addEvent('mousedown', this.onMouseDown, this.parent.canvas)
+        this.addEvent('mousedown', this.onMouseDown, this.view.canvas)
         this.addEvent('mousemove', this.onMouseMove)
         this.addEvent('wheel', this.onWheel)
         this.addEvent('mouseup', this.onMouseUp)
@@ -64,70 +57,66 @@ export class InputController {
     //
 
     onMouseDown(evt: MouseEvent) {
-        this.strokeActive = true
-        const [x, y] = this.getCoordinates(evt)
+        this.strokeTypeActive = evt.button
 
-        switch (this.strokeType) {
-            case 'edit':
-                const [ex, ey] = this.getAbsoluteCoordinates(x, y)
-                this.parent.polygonHandler.manipulateHeight({
-                    x: ex, y: ey
-                })
+        switch (evt.button) {
+            case 0:
+                this.stroke.onLeftMouseDown(evt)
+                break
+
+            case 1:
+                this.stroke.onWheelMouseDown(evt)
+                break
+
+            case 2:
+                this.stroke.onRightMouseDown(evt)
+                break
+
+            default:
+                console.log('Weird Mouse: ' + evt.button)
                 break
         }
     }
 
     onMouseMove(evt: MouseEvent) {
-        if (!this.strokeActive) return
-        const [x, y] = this.getCoordinates(evt)
+        if (this.strokeTypeActive < 0) return
 
-        switch (this.strokeType) {
-            case 'move':
-                this.parent.offset[0] += evt.movementX
-                this.parent.offset[1] += evt.movementY
+        switch (this.strokeTypeActive) {
+            case 0:
+                this.stroke.onLeftMouseMove(evt)
                 break
 
-            case 'edit':
-                const [ex, ey] = this.getAbsoluteCoordinates(x, y)
-                this.parent.polygonHandler.manipulateHeight({
-                    x: ex, y: ey
-                })
+            case 1:
+                this.stroke.onWheelMouseMove(evt)
+                break
+
+            case 2:
+                this.stroke.onRightMouseMove(evt)
                 break
         }
     }
 
     onWheel(e: WheelEvent): any {
-        // Mouse Coordinates/ Zoom Focus
-        const [x, y] = this.getCoordinates(e)
-
-        // Mouse Wheel Delta
-        const [dx, dy] = [e.deltaX, e.deltaY]
-
-        // Difference centre - mouse position
-        const [cx, cy] = [x - this.parent.offset[0], y - this.parent.offset[1]]
-
-        // Use delta x offset to move the
-        // map in the x-direction
-        this.parent.offset[0] += dx
-
-        // Zoom Logic
-        this.parent.offset[2] += dy / 1000
-
-        // Offset Switch
-        // Create Line between (0, 0) and
-        // current offset, then move offset
-        // depending on zoom delta
-
-        this.parent.offset[0] -= (cx * dy) / 1000
-        this.parent.offset[1] -= (cy * dy) / 1000
-
-        // Recalculate voronoi
-        this.parent.polygonHandler.recalculate()
+        this.stroke.onMouseWheel(e)
     }
 
     onMouseUp(evt: MouseEvent) {
-        if (!this.strokeActive) return
-        this.strokeActive = false
+        if (this.strokeTypeActive < 0) return
+        this.strokeTypeActive = -1
+
+        switch (this.strokeTypeActive) {
+            case 0:
+                this.stroke.onLeftMouseUp(evt)
+                break
+
+            case 1:
+                this.stroke.onWheelMouseUp(evt)
+                break
+
+            case 2:
+                this.stroke.onRightMouseUp(evt)
+                break
+        }
     }
 
     ////////////////////
@@ -136,35 +125,21 @@ export class InputController {
 
     onKeyPress(evt: KeyboardEvent) {
         // console.log(evt.key)
-        switch (evt.key) {
-            case 'm':
-                this.strokeType = 'move'
-                break
+        this.stroke = (() => {
+            switch (evt.key) {
+                case 'm':
+                    return new MoveStroke(this.view)
 
-            case 'e':
-                this.strokeType = 'edit'
-                break
-        }
+                case 'e':
+                    return new HeightEditStroke(this.view)
+
+                default:
+                    return new Stroke(this.view)
+            }
+        })()
     }
 
     //////////
     // Other
     //
-
-    /**
-     * Get canvas-local coordinates of mouse event
-     */
-    getCoordinates(evt: MouseEvent): [number, number] {
-        const rect = this.parent.canvas.getBoundingClientRect()
-        const x = evt.clientX - rect.left
-        const y = evt.clientY - rect.top
-        return [x, y]
-    }
-
-    getAbsoluteCoordinates(x: number, y: number): [number, number] {
-        return [
-            (x - this.parent.offset[0]) / this.parent.offset[2],
-            (y - this.parent.offset[1]) / this.parent.offset[2],
-        ]
-    }
 }
