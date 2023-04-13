@@ -45,7 +45,7 @@ export class PolygonChunk {
     addDot(x: number, y: number) {
         this.source.push({
             pos: [x, y],
-            height: 0
+            height: -100
         })
         // this.height.push(0)
         // this.height.push(Math.random() * 100)
