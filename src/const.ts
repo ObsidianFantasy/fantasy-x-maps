@@ -31,3 +31,11 @@ export const MAP_CHUNK_RECURSION_SIZE = 4
  * N * N
  */
 export const MAP_CHUNK_SPLIT_DIMENSION = 16
+
+/**
+ * This distance to chunk
+ * border is considered
+ * 'close to border'
+ * N
+ */
+export const MAP_CHUNK_BORDER_CLOSE = MAP_CHUNK_SIZE * 0.1

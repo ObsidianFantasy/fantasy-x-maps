@@ -1,6 +1,6 @@
 import { Delaunay, Voronoi } from 'd3-delaunay'
 import { PolygonChunk } from './Chunk'
-import { MAP_CHUNK_SIZE } from '../const'
+import { MAP_CHUNK_SIZE, MAP_CHUNK_BORDER_CLOSE } from '../const'
 import { MapView } from '../MapView'
 
 export class PolygonHandler {
@@ -63,7 +63,6 @@ export class PolygonHandler {
         this.voronoi = this.delaunay.voronoi([mix, miy, max, may])
     }
 
-    // TODO BUG: On chunk borders, huge tiles lead to issues
     pingChunk(cx: number, cy: number): PolygonChunk {
         let chunk = this.chunks.find(
             (v) => v.position[0] == cx && v.position[1] == cy
@@ -172,6 +171,16 @@ export class PolygonHandler {
             Math.floor(y / MAP_CHUNK_SIZE),
         ]
         const [rx, ry] = getChunkRelative([x, y])
+
+        // Ping neighbour to load tiles,
+        // if considered close
+        const neighbours = closeToChunkBorder([rx, ry])
+
+        // TODO fix weird behaviour with negative chunks
+        if (!(neighbours[0] == 0 && neighbours[1] == 0))
+            this.pingChunk(chunk_x + neighbours[0], chunk_y + neighbours[1])
+
+        // Ping self
         const chunk = this.pingChunk(chunk_x, chunk_y)
         const tile = chunk.getTileData(rx, ry)
 
@@ -183,4 +192,15 @@ export class PolygonHandler {
 
 function getChunkRelative([x, y]: [number, number]): [number, number] {
     return [Math.abs(x % MAP_CHUNK_SIZE), Math.abs(y % MAP_CHUNK_SIZE)]
+}
+
+function closeToChunkBorder([rx, ry]: [number, number]): [number, number] {
+    const v: [number, number] = [0, 0]
+
+    if (rx < MAP_CHUNK_BORDER_CLOSE) v[0] = -1
+    else if (rx > MAP_CHUNK_SIZE - MAP_CHUNK_BORDER_CLOSE) v[0] = 1
+    if (ry < MAP_CHUNK_BORDER_CLOSE) v[1] = -1
+    else if (ry > MAP_CHUNK_SIZE - MAP_CHUNK_BORDER_CLOSE) v[1] = 1
+
+    return v
 }
