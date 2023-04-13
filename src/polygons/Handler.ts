@@ -2,7 +2,7 @@ import { Delaunay, Voronoi } from 'd3-delaunay'
 import { PolygonChunk } from './Chunk'
 import { MAP_CHUNK_SIZE, MAP_CHUNK_BORDER_CLOSE } from '../const'
 import { MapView } from '../MapView'
-import { heightToRgb } from './Colors'
+// import { heightToRgb } from './Colors'
 
 export class PolygonHandler {
     parent: MapView
@@ -16,8 +16,7 @@ export class PolygonHandler {
     constructor(parent: MapView) {
         this.parent = parent
         this.chunks = [new PolygonChunk(0, 0)]
-        this.recalculatePoints()
-        this.calculateVoronoi()
+        this.recalculate()
     }
 
     recalculate() {
