@@ -108,22 +108,30 @@ export class MoveStroke extends Stroke {
 export class HeightEditStroke extends Stroke {
     strokeType: 'edit'
 
-    onLeftMouseDown(evt: MouseEvent): void {
+    manipulate(evt: MouseEvent, dir: number): void {
         const [x, y] = this.getCoordinates(evt)
         const [ex, ey] = this.getAbsoluteCoordinates(x, y)
         this.view.polygonHandler.manipulateHeight({
             x: ex,
             y: ey,
+            dir
         })
     }
 
+    onLeftMouseDown(evt: MouseEvent): void {
+        this.manipulate(evt, 1)
+    }
+
     onLeftMouseMove(evt: MouseEvent): void {
-        const [x, y] = this.getCoordinates(evt)
-        const [ex, ey] = this.getAbsoluteCoordinates(x, y)
-        this.view.polygonHandler.manipulateHeight({
-            x: ex,
-            y: ey,
-        })
+        this.manipulate(evt, 1)
+    }
+
+    onRightMouseDown(evt: MouseEvent): void {
+        this.manipulate(evt, -1)
+    }
+
+    onRightMouseMove(evt: MouseEvent): void {
+        this.manipulate(evt, -1)
     }
 }
 

@@ -165,7 +165,7 @@ export class PolygonHandler {
         return chunk.getTile(rx, ry)
     }
 
-    manipulateHeight({ x, y }) {
+    manipulateHeight({ x, y, dir }) {
         const [chunk_x, chunk_y] = [
             Math.floor(x / MAP_CHUNK_SIZE),
             Math.floor(y / MAP_CHUNK_SIZE),
@@ -186,7 +186,7 @@ export class PolygonHandler {
 
         // console.log(chunk.position, index, chunk.height[index])
 
-        tile.height += 100
+        tile.height += dir * 100
     }
 }
 
