@@ -157,7 +157,7 @@ export class PolygonHandler {
 
     render(parent: MapView) {
         this.renderPolygons(parent)
-        this.renderDebugPoints(parent)
+        // this.renderDebugPoints(parent)
     }
 
     /////////////////////
