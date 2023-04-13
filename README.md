@@ -21,7 +21,9 @@ Obsidian Plugin that supports the creation and edit of maps.
 
 - [x] Map is another File View
 - [x] Map is stored as chunks
-- [ ] Map can be displayed
+- [ ] Map can be displayed: Land
+- [ ] Map can be displayed: Heightmap
+- [ ] Map can be displayed: Decorations on Top (Biomes and Nations)
 - [ ] Map Read/ Write can be saved
 - [ ] Map can be dragged into another map
 - [ ] Map can be edited: Heightmap
