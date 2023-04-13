@@ -24,6 +24,7 @@
 		"esbuild": "0.17.3",
 		"esbuild-plugin-copy": "^2.1.1",
 		"obsidian": "latest",
+		"polygon-clipping": "^0.15.3",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"tslib": "2.4.0",
