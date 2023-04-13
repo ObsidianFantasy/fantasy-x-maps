@@ -92,6 +92,11 @@ export class PolygonHandler {
         })
     }
 
+    // TODO add
+    findNeighboursInRadius([x, y], radius: number) {
+        const tile = this.findNeighbours([x, y])
+    }
+
     // addPoint(x: number, y: number) {
     //     const [chunk_x, chunk_y] = getChunkCoordinates([x, y])
     //     const [rx, ry] = getChunkRelative([x, y])
@@ -172,7 +177,7 @@ export class PolygonHandler {
     }
 
     // TODO FIX BUG where zooming offsets the brush
-    manipulateHeight({ x, y, dir }) {
+    manipulateHeight({ x, y, dir, size }) {
         const [chunk_x, chunk_y] = getChunkCoordinates([x, y])
         const [rx, ry] = getChunkRelative([x, y])
 
@@ -191,9 +196,17 @@ export class PolygonHandler {
         // console.log(chunk.position, index, chunk.height[index])
 
         tile.height += dir * 100
+
+        // TODO size should affect brush size
+        // if (size > 2) {
+        for (const poly of this.findNeighboursData([x, y])) {
+            poly.height += dir * 20
+        }
+        // }
     }
 
-    normalize({ x, y }) {
+    // TODO add size parameter
+    normalize({ x, y, size }) {
         const [chunk_x, chunk_y] = getChunkCoordinates([x, y])
         const [rx, ry] = getChunkRelative([x, y])
 
