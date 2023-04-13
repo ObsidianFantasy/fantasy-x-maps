@@ -188,6 +188,42 @@ export class PolygonHandler {
 
         tile.height += dir * 100
     }
+
+    // TODO FIX BUG: Unwanted behavior on chunk borders
+    normalize({ x, y }) {
+        const [chunk_x, chunk_y] = [
+            Math.floor(x / MAP_CHUNK_SIZE),
+            Math.floor(y / MAP_CHUNK_SIZE),
+        ]
+        const [rx, ry] = getChunkRelative([x, y])
+
+        // Ping neighbour to load tiles,
+        // if considered close
+        const neighbours = closeToChunkBorder([rx, ry])
+
+        // TODO fix weird behaviour with negative chunks
+        if (!(neighbours[0] == 0 && neighbours[1] == 0))
+            this.pingChunk(chunk_x + neighbours[0], chunk_y + neighbours[1])
+
+        // Ping self
+        const chunk = this.pingChunk(chunk_x, chunk_y)
+        const tile = chunk.getTileData(rx, ry)
+
+        // Get neighbours
+        let height = tile.height
+        let tiles = 1
+        for (const i of chunk.delaunay.neighbors(chunk.getTile(rx, ry))) {
+            height += chunk.getTileDataByIndex(i).height
+            tiles ++
+        }
+
+        tile.height = height / tiles
+
+        // Set neighbours
+        for (const i of chunk.delaunay.neighbors(chunk.getTile(rx, ry))) {
+            chunk.getTileDataByIndex(i).height = height / tiles
+        }
+    }
 }
 
 function getChunkRelative([x, y]: [number, number]): [number, number] {

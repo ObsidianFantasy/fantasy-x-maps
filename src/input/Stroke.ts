@@ -118,12 +118,29 @@ export class HeightEditStroke extends Stroke {
         })
     }
 
+    normalize(evt: MouseEvent): void {
+        const [x, y] = this.getCoordinates(evt)
+        const [ex, ey] = this.getAbsoluteCoordinates(x, y)
+        this.view.polygonHandler.normalize({
+            x: ex,
+            y: ey
+        })
+    }
+
     onLeftMouseDown(evt: MouseEvent): void {
         this.manipulate(evt, 1)
     }
 
     onLeftMouseMove(evt: MouseEvent): void {
         this.manipulate(evt, 1)
+    }
+
+    onWheelMouseDown(evt: MouseEvent): void {
+        this.normalize(evt)
+    }
+
+    onWheelMouseMove(evt: MouseEvent): void {
+        this.normalize(evt)
     }
 
     onRightMouseDown(evt: MouseEvent): void {

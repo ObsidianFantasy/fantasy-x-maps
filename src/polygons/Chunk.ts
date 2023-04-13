@@ -59,6 +59,10 @@ export class PolygonChunk {
         return this.source[this.getTile(x, y)]
     }
 
+    getTileDataByIndex(id: number): PolygonData {
+        return this.source[id]
+    }
+
     renderTile(idx: number, ctx: CanvasRenderingContext2D) {
         this.voronoi.renderCell(idx, ctx)
     }
