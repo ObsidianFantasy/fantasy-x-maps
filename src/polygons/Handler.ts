@@ -77,11 +77,27 @@ export class PolygonHandler {
         return chunk
     }
 
+    findNeighbours([x, y]): number[] {
+        const tile = this.delaunay.find(x, y)
+        const neighbors = this.delaunay.neighbors(tile)
+        return Array.from(neighbors)
+    }
+
+    // TODO FIX
+    findNeighboursData([x, y]) {
+        return this.findNeighbours([x, y]).map(n => {
+            const chunk = this.chunkOfPoint[n]
+            const [nx, ny] = [
+                this.delaunay.points[n],
+                this.delaunay.points[n + 1],
+            ]
+            const [rx, ry] = getChunkRelative([nx, ny])
+            return chunk.getTileData(rx, ry)
+        })
+    }
+
     // addPoint(x: number, y: number) {
-    //     const [chunk_x, chunk_y] = [
-    //         Math.floor(x / MAP_CHUNK_SIZE),
-    //         Math.floor(y / MAP_CHUNK_SIZE),
-    //     ]
+    //     const [chunk_x, chunk_y] = getChunkCoordinates([x, y])
     //     const [rx, ry] = getChunkRelative([x, y])
     //     this.pingChunk(chunk_x, chunk_y)
 
@@ -145,7 +161,7 @@ export class PolygonHandler {
 
     render(parent: MapView) {
         this.renderPolygons(parent)
-        // this.renderDebugPoints(parent)
+        this.renderDebugPoints(parent)
     }
 
     /////////////////////
@@ -153,20 +169,15 @@ export class PolygonHandler {
     //
 
     getPolygon({ x, y }: { x: number; y: number }) {
-        const [chunk_x, chunk_y] = [
-            Math.floor(x / MAP_CHUNK_SIZE),
-            Math.floor(y / MAP_CHUNK_SIZE),
-        ]
+        const [chunk_x, chunk_y] = getChunkCoordinates([x, y])
         const [rx, ry] = getChunkRelative([x, y])
         const chunk = this.pingChunk(chunk_x, chunk_y)
         return chunk.getTile(rx, ry)
     }
 
+    // TODO FIX BUG where zooming offsets the brush
     manipulateHeight({ x, y, dir }) {
-        const [chunk_x, chunk_y] = [
-            Math.floor(x / MAP_CHUNK_SIZE),
-            Math.floor(y / MAP_CHUNK_SIZE),
-        ]
+        const [chunk_x, chunk_y] = getChunkCoordinates([x, y])
         const [rx, ry] = getChunkRelative([x, y])
 
         // Ping neighbour to load tiles,
@@ -186,19 +197,15 @@ export class PolygonHandler {
         tile.height += dir * 100
     }
 
-    // TODO FIX BUG: Unwanted behavior on chunk borders
     normalize({ x, y }) {
-        const [chunk_x, chunk_y] = [
-            Math.floor(x / MAP_CHUNK_SIZE),
-            Math.floor(y / MAP_CHUNK_SIZE),
-        ]
+        const [chunk_x, chunk_y] = getChunkCoordinates([x, y])
         const [rx, ry] = getChunkRelative([x, y])
 
         // Ping neighbour to load tiles,
         // if considered close
         const neighbours = closeToChunkBorder([rx, ry])
 
-        // TODO fix weird behaviour with negative chunks
+        // TODO fix weird loading behaviour with negative chunks
         if (!(neighbours[0] == 0 && neighbours[1] == 0))
             this.pingChunk(chunk_x + neighbours[0], chunk_y + neighbours[1])
 
@@ -209,18 +216,25 @@ export class PolygonHandler {
         // Get neighbours
         let height = tile.height
         let tiles = 1
-        for (const i of chunk.delaunay.neighbors(chunk.getTile(rx, ry))) {
-            height += chunk.getTileDataByIndex(i).height
-            tiles ++
+
+        const neighbors = this.findNeighboursData([x, y])
+
+        for (const poly of neighbors) {
+            height += poly.height
+            tiles++
         }
 
         tile.height = height / tiles
 
         // Set neighbours
-        for (const i of chunk.delaunay.neighbors(chunk.getTile(rx, ry))) {
-            chunk.getTileDataByIndex(i).height = height / tiles
+        for (const poly of neighbors) {
+            poly.height = height / tiles
         }
     }
+}
+
+function getChunkCoordinates([x, y]: [number, number]): [number, number] {
+    return [Math.floor(x / MAP_CHUNK_SIZE), Math.floor(y / MAP_CHUNK_SIZE)]
 }
 
 function getChunkRelative([x, y]: [number, number]): [number, number] {
