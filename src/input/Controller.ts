@@ -138,8 +138,4 @@ export class InputController {
             }
         })()
     }
-
-    //////////
-    // Other
-    //
 }
