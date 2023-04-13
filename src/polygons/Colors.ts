@@ -10,6 +10,7 @@ export function heightToRgb(height: number): string {
     if (height > 250) return Color('#cdd92b').rgb().toString()
     if (height > 100) return Color('#93d620').rgb().toString()
     if (height > 0) return Color('#57c716').rgb().toString()
+    if (height > -100) return Color('#1657c7').rgb().toString()
 
-    return 'rgba(0,0,0,0)'
+    return Color('#164787').rgb().toString()
 }
