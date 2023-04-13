@@ -227,7 +227,7 @@ export class PolygonHandler {
 
         const neighbors = this.findNeighboursData([x, y])
 
-        console.log(neighbors.length)
+        // console.log(neighbors.length)
 
         for (const poly of neighbors) {
             height += poly.height
