@@ -23,7 +23,7 @@ export class MapView extends View {
     /**
      * Map Polygons, the base unit
      */
-    polygons: PolygonHandler
+    polygonHandler: PolygonHandler
 
     ////////////////////
     // Implementation
@@ -31,7 +31,7 @@ export class MapView extends View {
 
     constructor(leaf: WorkspaceLeaf) {
         super(leaf)
-        this.polygons = new PolygonHandler(this)
+        this.polygonHandler = new PolygonHandler(this)
     }
 
     getViewType(): string {
@@ -73,6 +73,7 @@ export class MapView extends View {
         this.canvas.width = this.containerEl.offsetWidth
         this.canvas.height = this.containerEl.offsetHeight
 
-        this.polygons.render(this)
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+        this.polygonHandler.render(this)
     }
 }

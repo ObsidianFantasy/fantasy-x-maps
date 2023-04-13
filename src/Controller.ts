@@ -70,7 +70,7 @@ export class InputController {
         switch (this.strokeType) {
             case 'edit':
                 const [ex, ey] = this.getAbsoluteCoordinates(x, y)
-                this.parent.polygons.manipulateHeight({
+                this.parent.polygonHandler.manipulateHeight({
                     x: ex, y: ey
                 })
                 break
@@ -89,7 +89,7 @@ export class InputController {
 
             case 'edit':
                 const [ex, ey] = this.getAbsoluteCoordinates(x, y)
-                this.parent.polygons.manipulateHeight({
+                this.parent.polygonHandler.manipulateHeight({
                     x: ex, y: ey
                 })
                 break
@@ -122,7 +122,7 @@ export class InputController {
         this.parent.offset[1] -= (cy * dy) / 1000
 
         // Recalculate voronoi
-        this.parent.polygons.calculateVoronoi()
+        this.parent.polygonHandler.recalculate()
     }
 
     onMouseUp(evt: MouseEvent) {
