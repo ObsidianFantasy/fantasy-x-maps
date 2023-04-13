@@ -48,8 +48,8 @@ export class PolygonChunk {
 
     addDot(x: number, y: number) {
         this.source.push([x, y])
-        // this.height.push(0)
-        this.height.push(Math.random() * 100)
+        this.height.push(0)
+        // this.height.push(Math.random() * 100)
     }
 
     getTile(x: number, y: number): number {

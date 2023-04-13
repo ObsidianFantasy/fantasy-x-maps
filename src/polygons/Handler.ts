@@ -63,7 +63,7 @@ export class PolygonHandler {
         this.voronoi = this.delaunay.voronoi([mix, miy, max, may])
     }
 
-    pingChunk(cx: number, cy: number): PolygonChunk {
+    pingChunkAtomic(cx: number, cy: number): PolygonChunk {
         let chunk = this.chunks.find(
             (v) => v.position[0] == cx && v.position[1] == cy
         )
@@ -71,10 +71,34 @@ export class PolygonHandler {
         if (!chunk) {
             chunk = new PolygonChunk(cx, cy)
             this.chunks.push(chunk)
-            this.recalculate()
         }
 
         return chunk
+    }
+
+    /**
+     * Pings current and neighbour chunks into loading
+     */
+    pingChunk(cx: number, cy: number): PolygonChunk {
+        const relatives = [
+            [-1, -1],
+            [-1, 0],
+            [-1, 1],
+            [0, -1],
+            // [0, 0], // Ping below
+            [0, 1],
+            [1, -1],
+            [1, 0],
+            [1, 1],
+        ]
+
+        for (const [crx, cry] of relatives) {
+            this.pingChunkAtomic(cx + crx, cy + cry)
+        }
+
+        const pinged = this.pingChunkAtomic(cx, cy)
+        this.recalculate()
+        return pinged
     }
 
     // addPoint(x: number, y: number) {
@@ -129,7 +153,10 @@ export class PolygonHandler {
             ctx.beginPath()
 
             // ctx.fillStyle = `rgb(${chunk.position[0] % 2 * 255}, ${chunk.position[1] % 2 * 255}, 255)`
-            ctx.fillStyle = `rgba(255, 255, 255, ${Math.min(height / 1000, 1000)})`
+            ctx.fillStyle = `rgba(255, 255, 255, ${Math.min(
+                height / 1000,
+                1000
+            )})`
 
             // // ctx.fillStyle = `rgba(255, 255, 255, ${Math.random()})`
             // // ctx.fillStyle = `${i % 2 == 0 ? 'white' : 'black'}`
