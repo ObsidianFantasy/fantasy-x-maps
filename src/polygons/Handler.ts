@@ -2,6 +2,7 @@ import { Delaunay, Voronoi } from 'd3-delaunay'
 import { PolygonChunk } from './Chunk'
 import { MAP_CHUNK_SIZE, MAP_CHUNK_BORDER_CLOSE } from '../const'
 import { MapView } from '../MapView'
+import { heightToRgb } from './Colors'
 
 export class PolygonHandler {
     parent: MapView
@@ -129,10 +130,7 @@ export class PolygonHandler {
             ctx.beginPath()
 
             // ctx.fillStyle = `rgb(${chunk.position[0] % 2 * 255}, ${chunk.position[1] % 2 * 255}, 255)`
-            ctx.fillStyle = `rgba(255, 255, 255, ${Math.min(
-                height / 1000,
-                1000
-            )})`
+            ctx.fillStyle = heightToRgb(height).css
 
             // ctx.fillStyle = `rgba(255, 255, 255, ${Math.random()})`
             // // ctx.fillStyle = `${i % 2 == 0 ? 'white' : 'black'}`
