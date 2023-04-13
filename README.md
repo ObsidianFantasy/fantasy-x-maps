@@ -20,7 +20,7 @@ Obsidian Plugin that supports the creation and edit of maps.
 ## To-Do
 
 - [x] Map is another File View
-- [ ] Map is stored as chunks
+- [x] Map is stored as chunks
 - [ ] Map can be displayed
 - [ ] Map Read/ Write can be saved
 - [ ] Map can be dragged into another map
