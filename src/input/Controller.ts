@@ -1,4 +1,4 @@
-import { MapView } from './MapView'
+import { MapView } from '../MapView'
 
 /**
  * ### The Input Controller of the MapView
