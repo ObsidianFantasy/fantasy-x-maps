@@ -1,12 +1,9 @@
 import { Delaunay, Voronoi } from 'd3-delaunay'
 import { MAP_CHUNK_SIZE, MAP_CHUNK_SPLIT_DIMENSION } from '../const'
+import { PolygonData } from './Data'
 
 export class PolygonChunk {
-    // Points & Tiles
-    source: Delaunay.Point[]
-    height: number[]
-
-    // Chunk Local
+    source: PolygonData[]
     position: number[]
     delaunay: Delaunay<Delaunay.Point>
     voronoi: Voronoi<Delaunay.Point>
@@ -14,13 +11,12 @@ export class PolygonChunk {
     constructor(x: number, y: number) {
         this.position = [x, y, 0]
         this.source = []
-        this.height = []
 
         this.generate()
     }
 
     calculateVoronoi() {
-        this.delaunay = Delaunay.from(this.source)
+        this.delaunay = Delaunay.from(this.source.map(v => v.pos))
         this.voronoi = this.delaunay.voronoi([
             0,
             0,
@@ -47,13 +43,20 @@ export class PolygonChunk {
     }
 
     addDot(x: number, y: number) {
-        this.source.push([x, y])
-        this.height.push(0)
+        this.source.push({
+            pos: [x, y],
+            height: 0
+        })
+        // this.height.push(0)
         // this.height.push(Math.random() * 100)
     }
 
     getTile(x: number, y: number): number {
         return this.delaunay.find(x, y)
+    }
+
+    getTileData(x: number, y: number): PolygonData {
+        return this.source[this.getTile(x, y)]
     }
 
     renderTile(idx: number, ctx: CanvasRenderingContext2D) {

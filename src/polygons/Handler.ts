@@ -34,8 +34,8 @@ export class PolygonHandler {
             for (let j = 0; j < chunk.source.length; j++) {
                 const point = chunk.source[j]
                 this.points.push([
-                    point[0] + chunk.position[0] * MAP_CHUNK_SIZE,
-                    point[1] + chunk.position[1] * MAP_CHUNK_SIZE,
+                    point.pos[0] + chunk.position[0] * MAP_CHUNK_SIZE,
+                    point.pos[1] + chunk.position[1] * MAP_CHUNK_SIZE,
                 ])
                 this.chunkOfPoint.push(chunk)
             }
@@ -123,8 +123,8 @@ export class PolygonHandler {
             const [rx, ry] = getChunkRelative([x, y])
 
             const chunk = this.chunkOfPoint[i]
-            const index = chunk.getTile(rx, ry)
-            const height = chunk.height[index]
+            const tile = chunk.getTileData(rx, ry)
+            const height = tile.height
 
             // Drawing
             ctx.beginPath()
@@ -173,11 +173,11 @@ export class PolygonHandler {
         ]
         const [rx, ry] = getChunkRelative([x, y])
         const chunk = this.pingChunk(chunk_x, chunk_y)
-        const index = chunk.getTile(rx, ry)
+        const tile = chunk.getTileData(rx, ry)
 
         // console.log(chunk.position, index, chunk.height[index])
 
-        chunk.height[index] += 100
+        tile.height += 100
     }
 }
 
