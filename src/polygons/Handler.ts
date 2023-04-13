@@ -130,7 +130,7 @@ export class PolygonHandler {
             ctx.beginPath()
 
             // ctx.fillStyle = `rgb(${chunk.position[0] % 2 * 255}, ${chunk.position[1] % 2 * 255}, 255)`
-            ctx.fillStyle = heightToRgb(height).css
+            ctx.fillStyle = heightToRgb(height)
 
             // ctx.fillStyle = `rgba(255, 255, 255, ${Math.random()})`
             // // ctx.fillStyle = `${i % 2 == 0 ? 'white' : 'black'}`
