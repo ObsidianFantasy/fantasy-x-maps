@@ -1,7 +1,6 @@
 import { View, WorkspaceLeaf } from 'obsidian'
 import { MAP_VIEW } from './const'
-import { PolygonHandler } from './polygons/Handler'
-import { InputController } from './input/Controller'
+import { PolygonHandler } from './polygons/PolygonHandler'
 
 /**
  * ### The Core Renderer of the Map
