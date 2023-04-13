@@ -225,7 +225,7 @@ export class PolygonHandler {
 
         // Set neighbours
         for (const poly of neighbors) {
-            poly.height = height / tiles
+            poly.height = (poly.height + height / tiles) / 2
         }
     }
 }
