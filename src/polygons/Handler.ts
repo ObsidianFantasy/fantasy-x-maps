@@ -106,7 +106,7 @@ export class PolygonHandler {
     //         Math.floor(x / MAP_CHUNK_SIZE),
     //         Math.floor(y / MAP_CHUNK_SIZE),
     //     ]
-    //     const [rx, ry] = [x % MAP_CHUNK_SIZE, y % MAP_CHUNK_SIZE]
+    //     const [rx, ry] = getChunkRelative([x, y])
     //     this.pingChunk(chunk_x, chunk_y)
 
     //     // chunk.addDot(rx, ry)
@@ -143,7 +143,7 @@ export class PolygonHandler {
             const [x, y] = this.points[i]
 
             // Chunk Relative
-            const [rx, ry] = [x % MAP_CHUNK_SIZE, y % MAP_CHUNK_SIZE]
+            const [rx, ry] = getChunkRelative([x, y])
 
             const chunk = this.chunkOfPoint[i]
             const index = chunk.getTile(rx, ry)
@@ -158,7 +158,7 @@ export class PolygonHandler {
                 1000
             )})`
 
-            // // ctx.fillStyle = `rgba(255, 255, 255, ${Math.random()})`
+            // ctx.fillStyle = `rgba(255, 255, 255, ${Math.random()})`
             // // ctx.fillStyle = `${i % 2 == 0 ? 'white' : 'black'}`
             this.voronoi.renderCell(i, ctx)
             // // this.voronoi.renderCell(this.delaunay.find(x + chunk.position[0], y + chunk.position[1]), ctx)
@@ -184,7 +184,7 @@ export class PolygonHandler {
             Math.floor(x / MAP_CHUNK_SIZE),
             Math.floor(y / MAP_CHUNK_SIZE),
         ]
-        const [rx, ry] = [x % MAP_CHUNK_SIZE, y % MAP_CHUNK_SIZE]
+        const [rx, ry] = getChunkRelative([x, y])
         const chunk = this.pingChunk(chunk_x, chunk_y)
         return chunk.getTile(rx, ry)
     }
@@ -194,7 +194,7 @@ export class PolygonHandler {
             Math.floor(x / MAP_CHUNK_SIZE),
             Math.floor(y / MAP_CHUNK_SIZE),
         ]
-        const [rx, ry] = [x % MAP_CHUNK_SIZE, y % MAP_CHUNK_SIZE]
+        const [rx, ry] = getChunkRelative([x, y])
         const chunk = this.pingChunk(chunk_x, chunk_y)
         const index = chunk.getTile(rx, ry)
 
@@ -202,4 +202,8 @@ export class PolygonHandler {
 
         chunk.height[index] += 100
     }
+}
+
+function getChunkRelative([x, y]: [number, number]): [number, number] {
+    return [Math.abs(x % MAP_CHUNK_SIZE), Math.abs(y % MAP_CHUNK_SIZE)]
 }
