@@ -22,9 +22,18 @@ export class Stroke {
     onWheelMouseUp(evt: MouseEvent): void {}
 
     // Right Mouse Button : Press + Move + End
-    onRightMouseDown(evt: MouseEvent): void {}
-    onRightMouseMove(evt: MouseEvent): void {}
-    onRightMouseUp(evt: MouseEvent): void {}
+    onRightMouseDown(evt: MouseEvent): void {
+        // Unless otherwise overwritten,
+        // right button shares left
+        // button behaviour
+        this.onLeftMouseDown(evt)
+    }
+    onRightMouseMove(evt: MouseEvent): void {
+        this.onLeftMouseMove(evt)
+    }
+    onRightMouseUp(evt: MouseEvent): void {
+        this.onLeftMouseUp(evt)
+    }
 
     // Mouse Scroll
     onMouseWheel(evt: WheelEvent): void {}
