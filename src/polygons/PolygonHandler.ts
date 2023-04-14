@@ -164,7 +164,8 @@ export class PolygonHandler {
             // Drawing
             ctx.beginPath()
 
-            ctx.fillStyle = `rgba(255, 255, 255, ${height / 10000})`
+            const alpha = height / 10000
+            ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`
             // ctx.fillStyle = heightToRgb(height)
 
             // ctx.fillStyle = `rgba(255, 255, 255, ${Math.random()})`
