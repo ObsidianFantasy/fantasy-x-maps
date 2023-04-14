@@ -163,6 +163,10 @@ export class HeightEditStroke extends Stroke {
 
         this.size = Math.max(this.size, 1)
     }
+
+    onLeftMouseUp(evt: MouseEvent): void {
+        this.view.polygonHandler.recalculate()
+    }
 }
 
 //////////////////////////

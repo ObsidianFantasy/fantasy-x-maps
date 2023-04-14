@@ -2,6 +2,9 @@ import { Delaunay, Voronoi } from 'd3-delaunay'
 import { PolygonChunk } from './Chunk'
 import { MAP_CHUNK_SIZE, MAP_CHUNK_BORDER_CLOSE } from '../const'
 import { MapView } from '../MapView'
+import { PolygonData } from './Data'
+import { LandBorder } from './LandBorder'
+import { MultiPolygon } from 'polygon-clipping'
 // import { heightToRgb } from './Colors'
 
 export class PolygonHandler {
@@ -10,18 +13,26 @@ export class PolygonHandler {
     delaunay: Delaunay<Delaunay.Point>
     voronoi: Voronoi<Delaunay.Point>
 
-    private points: Delaunay.Point[]
-    private chunkOfPoint: PolygonChunk[]
+    points: Delaunay.Point[]
+    chunkOfPoint: PolygonChunk[]
+
+    // TODO REFACTOR
+    landBorder: MultiPolygon
 
     constructor(parent: MapView) {
+        this.points = []
+        this.chunkOfPoint = []
+
         this.parent = parent
         this.chunks = [new PolygonChunk(0, 0)]
+
         this.recalculate()
     }
 
     recalculate() {
         this.recalculatePoints()
         this.calculateVoronoi()
+        this.landBorder = LandBorder.recalculate(this.parent)
     }
 
     private recalculatePoints() {
@@ -77,6 +88,14 @@ export class PolygonHandler {
         return chunk
     }
 
+    getPointData([x, y]): PolygonData {
+        const tile = this.delaunay.find(x, y)
+        const chunk = this.chunkOfPoint[tile]
+        const [nx, ny] = this.points[tile]
+        const [rx, ry] = getChunkRelative([nx, ny])
+        return chunk.getTileData(rx, ry)
+    }
+
     findNeighbours([x, y]): number[] {
         const tile = this.delaunay.find(x, y)
         const neighbors = this.delaunay.neighbors(tile)
@@ -86,8 +105,8 @@ export class PolygonHandler {
     findNeighboursData([x, y]) {
         return this.findNeighbours([x, y]).map((n) => {
             const chunk = this.chunkOfPoint[n]
-            const [x, y] = this.points[n]
-            const [rx, ry] = getChunkRelative([x, y])
+            const [nx, ny] = this.points[n]
+            const [rx, ry] = getChunkRelative([nx, ny])
             return chunk.getTileData(rx, ry)
         })
     }
@@ -163,6 +182,7 @@ export class PolygonHandler {
     render(parent: MapView) {
         this.renderPolygons(parent)
         // this.renderDebugPoints(parent)
+        LandBorder.render(this.parent, this.landBorder)
     }
 
     /////////////////////

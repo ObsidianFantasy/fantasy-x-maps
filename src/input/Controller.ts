@@ -104,7 +104,6 @@ export class InputController {
 
     onMouseUp(evt: MouseEvent) {
         if (this.strokeTypeActive < 0) return
-        this.strokeTypeActive = -1
 
         switch (this.strokeTypeActive) {
             case 0:
@@ -119,6 +118,8 @@ export class InputController {
                 this.stroke.onRightMouseUp(evt)
                 break
         }
+
+        this.strokeTypeActive = -1
     }
 
     ////////////////////

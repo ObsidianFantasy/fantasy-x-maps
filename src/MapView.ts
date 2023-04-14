@@ -53,6 +53,7 @@ export class MapView extends View {
         this.ctx.imageSmoothingEnabled = true
         this.rendering = true
 
+        this.polygonHandler.recalculate()
         this.render()
     }
 
