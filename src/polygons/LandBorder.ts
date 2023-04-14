@@ -28,7 +28,7 @@ export class LandBorder {
         const { ctx, offset } = parent
 
         ctx.translate(offset[0], offset[1])
-        ctx.strokeStyle = 'rgb(25,25,50)' // TODO set to a variable
+        ctx.strokeStyle = 'rgb(25,127,200)' // TODO set to a variable
 
         for (const polygon of polygons) {
             for (const ring of polygon) {
