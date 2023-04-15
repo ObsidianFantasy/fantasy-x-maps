@@ -5,7 +5,6 @@ import { MapView } from '../MapView'
 import { PolygonData } from './Data'
 import { LandBorder } from '../render/LandBorder'
 import { MultiPolygon } from 'polygon-clipping'
-// import { heightToRgb } from './Colors'
 
 export class PolygonHandler {
     parent: MapView
