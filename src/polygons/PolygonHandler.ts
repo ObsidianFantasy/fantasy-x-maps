@@ -17,7 +17,7 @@ export class PolygonHandler {
     chunkOfPoint: PolygonChunk[]
 
     // TODO REFACTOR
-    landBorder: MultiPolygon
+    landBorder: LandBorder
 
     constructor(parent: MapView) {
         this.points = []
@@ -32,7 +32,8 @@ export class PolygonHandler {
     recalculate() {
         this.recalculatePoints()
         this.calculateVoronoi()
-        this.landBorder = LandBorder.recalculate(this.parent)
+        this.landBorder = new LandBorder()
+        this.landBorder.recalculate(this.parent)
     }
 
     private recalculatePoints() {
@@ -183,7 +184,7 @@ export class PolygonHandler {
     render(parent: MapView) {
         this.renderPolygons(parent)
         // this.renderDebugPoints(parent)
-        LandBorder.render(this.parent, this.landBorder)
+        this.landBorder.render(this.parent)
     }
 
     /////////////////////

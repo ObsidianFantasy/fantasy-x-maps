@@ -6,7 +6,9 @@ import { Delaunay } from 'd3-delaunay'
  * Display the continental borders
  */
 export class LandBorder {
-    static recalculate(parent: MapView): MultiPolygon {
+    polygons: MultiPolygon
+
+    recalculate(parent: MapView) {
         const polygonHandler = parent.polygonHandler
         const polygons : Delaunay.Polygon[][] = []
 
@@ -20,17 +22,17 @@ export class LandBorder {
             }
         }
 
-        return union(polygons)
+        this.polygons = union(polygons)
     }
 
-    static render(parent: MapView, polygons: MultiPolygon) {
+    render(parent: MapView) {
         // TODO render land border
         const { ctx, offset } = parent
 
         ctx.translate(offset[0], offset[1])
         ctx.strokeStyle = 'rgb(25,127,200)' // TODO set to a variable
 
-        for (const polygon of polygons) {
+        for (const polygon of this.polygons) {
             for (const ring of polygon) {
                 ctx.beginPath()
                 let i = 0
