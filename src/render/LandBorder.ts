@@ -1,11 +1,12 @@
 import { MultiPolygon, union } from 'polygon-clipping'
 import { MapView } from '../MapView'
 import { Delaunay } from 'd3-delaunay'
+import { Drawable } from './Drawable'
 
 /**
  * Display the continental borders
  */
-export class LandBorder {
+export class LandBorder implements Drawable {
     polygons: MultiPolygon
 
     recalculate(parent: MapView) {
