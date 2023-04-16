@@ -6,7 +6,7 @@ import { RenderLayer } from './RenderLayer'
 /**
  * Display the continental borders
  */
-export class LandBorder extends RenderLayer {
+export class Landmass extends RenderLayer {
     cls = 'land-border'
     polygons: MultiPolygon
 

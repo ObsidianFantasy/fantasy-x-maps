@@ -3,7 +3,7 @@ import { PolygonChunk } from './Chunk'
 import { MAP_CHUNK_SIZE, MAP_CHUNK_BORDER_CLOSE } from '../const'
 import { MapView } from '../MapView'
 import { PolygonData } from './Data'
-import { LandBorder } from '../render/LandBorder'
+import { Landmass } from '../render/Landmass'
 import { MultiPolygon } from 'polygon-clipping'
 
 export class PolygonHandler {

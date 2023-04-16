@@ -2,7 +2,7 @@ import { View, WorkspaceLeaf } from 'obsidian'
 import { MAP_VIEW } from './const'
 import { PolygonHandler } from './polygons/PolygonHandler'
 import { RenderLayer } from './render/RenderLayer'
-import { LandBorder } from './render/LandBorder'
+import { Landmass } from './render/Landmass'
 import { HeightMap } from './render/HeightMap'
 
 /**
@@ -43,7 +43,7 @@ export class MapView extends View {
 
         this.polygonHandler = new PolygonHandler(this)
 
-        this.addLayer(new LandBorder())
+        this.addLayer(new Landmass())
         this.addLayer(new HeightMap())
     }
 
