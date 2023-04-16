@@ -44,7 +44,7 @@ export class Stroke {
      * Get canvas-local coordinates of mouse event
      */
     getCoordinates(evt: MouseEvent): [number, number] {
-        const rect = this.view.canvas.getBoundingClientRect()
+        const rect = this.view.svg.getBoundingClientRect()
         const x = evt.clientX - rect.left
         const y = evt.clientY - rect.top
         return [x, y]
