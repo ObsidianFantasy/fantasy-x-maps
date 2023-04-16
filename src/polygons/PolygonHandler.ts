@@ -259,15 +259,15 @@ export class PolygonHandler {
     }
 }
 
-function getChunkCoordinates([x, y]: [number, number]): [number, number] {
+export function getChunkCoordinates([x, y]: [number, number]): [number, number] {
     return [Math.floor(x / MAP_CHUNK_SIZE), Math.floor(y / MAP_CHUNK_SIZE)]
 }
 
-function getChunkRelative([x, y]: [number, number]): [number, number] {
+export function getChunkRelative([x, y]: [number, number]): [number, number] {
     return [Math.abs(x % MAP_CHUNK_SIZE), Math.abs(y % MAP_CHUNK_SIZE)]
 }
 
-function closeToChunkBorder([rx, ry]: [number, number]): [number, number] {
+export function closeToChunkBorder([rx, ry]: [number, number]): [number, number] {
     const v: [number, number] = [0, 0]
 
     if (rx < MAP_CHUNK_BORDER_CLOSE) v[0] = -1

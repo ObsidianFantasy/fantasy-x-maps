@@ -25,7 +25,10 @@ export abstract class RenderLayer {
     /**
      * Recalculate is called on major changes to map (new tiles, mouse stroke, etc.)
      */
-    abstract recalculate(): void
+    recalculate(): void {
+        while (this.element.lastElementChild)
+            this.element.removeChild(this.element.lastElementChild)
+    }
 
     // TODO add 'moved' method to be called when zoom/ offset move occurs
     // move(offset ?) ??

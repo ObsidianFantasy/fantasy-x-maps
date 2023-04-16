@@ -19,6 +19,8 @@ export class LandBorder extends RenderLayer {
     }
 
     recalculate() {
+        super.recalculate()
+        
         const polygonHandler = this.view.polygonHandler
         const polygons: Delaunay.Polygon[][] = []
 
