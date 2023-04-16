@@ -111,7 +111,6 @@ export class MapView extends View {
     }
 
     recalculate(): void {
-        console.log('recalculate')
         this.polygonHandler.recalculate()
 
         for (const layer of this.layers) {
