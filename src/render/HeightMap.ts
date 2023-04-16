@@ -13,7 +13,7 @@ export class HeightMap extends RenderLayer {
 
     recalculate() {
         super.recalculate()
-        
+
         const { polygonHandler } = this.view
 
         for (let i = 0; i < polygonHandler.points.length; i++) {
@@ -29,6 +29,8 @@ export class HeightMap extends RenderLayer {
 
             const alpha = height / 10000
             const color = `rgba(255, 255, 255, ${alpha})`
+
+            if (height <= 0) continue
 
             let d = ''
             const ring = polygonHandler.voronoi.cellPolygon(i)
