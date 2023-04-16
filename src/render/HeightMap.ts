@@ -1,20 +1,16 @@
 import { MultiPolygon, union } from 'polygon-clipping'
 import { MapView } from '../MapView'
-import { Drawable } from './Drawable'
+import { RenderLayer } from './RenderLayer'
 
 // TODO move height map render here
 
 /**
  * Display the continental borders
  */
-export class HeightMap implements Drawable {
-    polygons: MultiPolygon
+export class HeightMap extends RenderLayer {
+    cls = 'height-map'
 
-    recalculate(parent: MapView) {
-        // TODO
-    }
-
-    render(parent: MapView) {
+    recalculate() {
         // TODO
     }
 }

@@ -1,16 +1,21 @@
 import { MultiPolygon, union } from 'polygon-clipping'
 import { MapView } from '../MapView'
 import { Delaunay } from 'd3-delaunay'
-import { Drawable } from './Drawable'
+import { RenderLayer } from './RenderLayer'
 
 /**
  * Display the continental borders
  */
-export class LandBorder implements Drawable {
+export class LandBorder extends RenderLayer {
+    cls = 'land-border'
     polygons: MultiPolygon
 
-    recalculate(parent: MapView) {
-        const polygonHandler = parent.polygonHandler
+    onload(view: MapView): void {
+        super.onload(view)
+    }
+
+    recalculate() {
+        const polygonHandler = this.view.polygonHandler
         const polygons : Delaunay.Polygon[][] = []
 
         for (let i = 0; i < polygonHandler?.points.length; i++) {
@@ -28,24 +33,25 @@ export class LandBorder implements Drawable {
 
     render(parent: MapView) {
         // TODO render land border
-        const { ctx, offset } = parent
+        const { offset } = this.view
 
-        ctx.translate(offset[0], offset[1])
-        ctx.strokeStyle = 'rgb(25,127,200)' // TODO set to a variable
+        // ctx.translate(offset[0], offset[1])
+        // ctx.lineWidth = 0.1
+        // ctx.strokeStyle = 'rgb(127,127,127)' // TODO set to a variable
 
-        for (const polygon of this.polygons) {
-            for (const ring of polygon) {
-                ctx.beginPath()
-                let i = 0
-                for (const point of ring) {
-                    if (i == 0) ctx.moveTo(point[0], point[1])
-                    else ctx.lineTo(point[0], point[1])
-                    i++
-                }
-                ctx.stroke()
-            }
-        }
+        // for (const polygon of this.polygons) {
+        //     for (const ring of polygon) {
+        //         ctx.beginPath()
+        //         let i = 0
+        //         for (const point of ring) {
+        //             if (i == 0) ctx.moveTo(point[0], point[1])
+        //             else ctx.lineTo(point[0], point[1])
+        //             i++
+        //         }
+        //         ctx.stroke()
+        //     }
+        // }
 
-        ctx.translate(-offset[0], -offset[1])
+        // ctx.translate(-offset[0], -offset[1])
     }
 }
