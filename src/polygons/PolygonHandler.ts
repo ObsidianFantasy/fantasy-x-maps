@@ -3,9 +3,8 @@ import { PolygonChunk } from './Chunk'
 import { MAP_CHUNK_SIZE, MAP_CHUNK_BORDER_CLOSE } from '../const'
 import { MapView } from '../MapView'
 import { PolygonData } from './Data'
-import { LandBorder } from './LandBorder'
+import { LandBorder } from '../render/LandBorder'
 import { MultiPolygon } from 'polygon-clipping'
-// import { heightToRgb } from './Colors'
 
 export class PolygonHandler {
     parent: MapView
@@ -15,9 +14,6 @@ export class PolygonHandler {
 
     points: Delaunay.Point[]
     chunkOfPoint: PolygonChunk[]
-
-    // TODO REFACTOR
-    landBorder: MultiPolygon
 
     constructor(parent: MapView) {
         this.points = []
@@ -32,7 +28,6 @@ export class PolygonHandler {
     recalculate() {
         this.recalculatePoints()
         this.calculateVoronoi()
-        this.landBorder = LandBorder.recalculate(this.parent)
     }
 
     private recalculatePoints() {
@@ -128,63 +123,63 @@ export class PolygonHandler {
 
     // Render
 
-    renderDebugPoints(parent: MapView) {
-        const { ctx, offset } = parent
+    // renderDebugPoints(parent: MapView) {
+    //     const { ctx, offset } = parent
 
-        ctx.fillStyle = 'white'
+    //     ctx.fillStyle = 'white'
 
-        // const p = this.delaunay?.points
-        // for (let i = 0; i < p?.length; i += 2) {
-        //     ctx.fillRect(p[i] + offset[0], p[i + 1] + offset[1], 1, 1)
-        // }
+    //     // const p = this.delaunay?.points
+    //     // for (let i = 0; i < p?.length; i += 2) {
+    //     //     ctx.fillRect(p[i] + offset[0], p[i + 1] + offset[1], 1, 1)
+    //     // }
 
-        for (let i = 0; i < this.points.length; i++) {
-            const [x, y] = this.points[i]
-            ctx.fillRect(x + offset[0], y + offset[1], 1, 1)
-        }
-    }
+    //     for (let i = 0; i < this.points.length; i++) {
+    //         const [x, y] = this.points[i]
+    //         ctx.fillRect(x + offset[0], y + offset[1], 1, 1)
+    //     }
+    // }
 
-    renderPolygons(parent: MapView) {
-        const { ctx, offset } = parent
+    // renderPolygons(parent: MapView) {
+    //     const { ctx, offset } = parent
 
-        ctx.translate(offset[0], offset[1])
-        ctx.strokeStyle = '#3f3f3f' // TODO set to a variable
+    //     ctx.translate(offset[0], offset[1])
+    //     ctx.strokeStyle = '#3f3f3f' // TODO set to a variable
 
-        for (let i = 0; i < this.points.length; i++) {
-            // Absolute position
-            const [x, y] = this.points[i]
+    //     for (let i = 0; i < this.points.length; i++) {
+    //         // Absolute position
+    //         const [x, y] = this.points[i]
 
-            // Chunk Relative
-            const [rx, ry] = getChunkRelative([x, y])
+    //         // Chunk Relative
+    //         const [rx, ry] = getChunkRelative([x, y])
 
-            const chunk = this.chunkOfPoint[i]
-            const tile = chunk.getTileData(rx, ry)
-            const height = tile.height
+    //         const chunk = this.chunkOfPoint[i]
+    //         const tile = chunk.getTileData(rx, ry)
+    //         const height = tile.height
 
-            // Drawing
-            ctx.beginPath()
+    //         // Drawing
+    //         ctx.beginPath()
 
-            const alpha = height / 10000
-            ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`
-            // ctx.fillStyle = heightToRgb(height)
+    //         const alpha = height / 10000
+    //         ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`
+    //         // ctx.fillStyle = heightToRgb(height)
 
-            // ctx.fillStyle = `rgba(255, 255, 255, ${Math.random()})`
-            // // ctx.fillStyle = `${i % 2 == 0 ? 'white' : 'black'}`
-            this.voronoi.renderCell(i, ctx)
-            // // this.voronoi.renderCell(this.delaunay.find(x + chunk.position[0], y + chunk.position[1]), ctx)
+    //         // ctx.fillStyle = `rgba(255, 255, 255, ${Math.random()})`
+    //         // // ctx.fillStyle = `${i % 2 == 0 ? 'white' : 'black'}`
+    //         this.voronoi.renderCell(i, ctx)
+    //         // // this.voronoi.renderCell(this.delaunay.find(x + chunk.position[0], y + chunk.position[1]), ctx)
 
-            ctx.fill()
-            // ctx.fillRect(x, y, 1, 1)
-        }
+    //         ctx.fill()
+    //         // ctx.fillRect(x, y, 1, 1)
+    //     }
 
-        ctx.translate(-offset[0], -offset[1])
-    }
+    //     ctx.translate(-offset[0], -offset[1])
+    // }
 
-    render(parent: MapView) {
-        this.renderPolygons(parent)
-        // this.renderDebugPoints(parent)
-        LandBorder.render(this.parent, this.landBorder)
-    }
+    // render(parent: MapView) {
+    //     this.renderPolygons(parent)
+    //     // this.renderDebugPoints(parent)
+    //     this.landBorder.render(this.parent)
+    // }
 
     /////////////////////
     // Map Manipulation
@@ -264,15 +259,15 @@ export class PolygonHandler {
     }
 }
 
-function getChunkCoordinates([x, y]: [number, number]): [number, number] {
+export function getChunkCoordinates([x, y]: [number, number]): [number, number] {
     return [Math.floor(x / MAP_CHUNK_SIZE), Math.floor(y / MAP_CHUNK_SIZE)]
 }
 
-function getChunkRelative([x, y]: [number, number]): [number, number] {
+export function getChunkRelative([x, y]: [number, number]): [number, number] {
     return [Math.abs(x % MAP_CHUNK_SIZE), Math.abs(y % MAP_CHUNK_SIZE)]
 }
 
-function closeToChunkBorder([rx, ry]: [number, number]): [number, number] {
+export function closeToChunkBorder([rx, ry]: [number, number]): [number, number] {
     const v: [number, number] = [0, 0]
 
     if (rx < MAP_CHUNK_BORDER_CLOSE) v[0] = -1

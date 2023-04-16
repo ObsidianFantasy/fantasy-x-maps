@@ -27,7 +27,7 @@ export class InputController {
     //
 
     onload(): void {
-        this.addEvent('mousedown', this.onMouseDown, this.view.canvas)
+        this.addEvent('mousedown', this.onMouseDown, this.view.svg)
         this.addEvent('mousemove', this.onMouseMove)
         this.addEvent('wheel', this.onWheel)
         this.addEvent('mouseup', this.onMouseUp)
@@ -43,7 +43,7 @@ export class InputController {
     addEvent(
         type: keyof WindowEventMap,
         listener: (evt: any) => void,
-        el?: HTMLElement
+        el?: Element
     ) {
         const binding = listener.bind(this)
         if (el) {
