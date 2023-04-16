@@ -12,11 +12,15 @@ export class LandBorder extends RenderLayer {
 
     onload(view: MapView): void {
         super.onload(view)
+        this.element.setAttr('stroke','#888888')
+
+        // TODO FIX BUG WHERE INNER CIRCLES ARE FILLED
+        this.element.setAttr('fill','#00000000')
     }
 
     recalculate() {
         const polygonHandler = this.view.polygonHandler
-        const polygons : Delaunay.Polygon[][] = []
+        const polygons: Delaunay.Polygon[][] = []
 
         for (let i = 0; i < polygonHandler?.points.length; i++) {
             const point = polygonHandler.points[i]
@@ -29,6 +33,23 @@ export class LandBorder extends RenderLayer {
         }
 
         this.polygons = union(polygons)
+
+        for (const polygon of this.polygons) {
+            for (const ring of polygon) {
+                let d = ''
+
+                for (const point of ring) {
+                    // const vec = `${Math.floor(point[0])}, ${Math.floor(point[1])}`
+                    if (d.length == 0) {
+                        d += `M${point[0]},${point[1]}`
+                    } else {
+                        d += `L${point[0]},${point[1]}`
+                    }
+                }
+
+                this.element.createSvg('path', {attr: {d}})
+            }
+        }
     }
 
     render(parent: MapView) {

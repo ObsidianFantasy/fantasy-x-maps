@@ -98,7 +98,7 @@ export class MoveStroke extends Stroke {
         this.view.offset[1] -= (cy * dy) / 1000
 
         // Recalculate voronoi
-        this.view.polygonHandler.recalculate()
+        this.view.recalculate()
     }
 }
 
@@ -165,7 +165,7 @@ export class HeightEditStroke extends Stroke {
     }
 
     onLeftMouseUp(evt: MouseEvent): void {
-        this.view.polygonHandler.recalculate()
+        this.view.recalculate()
     }
 
     onWheelMouseUp(evt: MouseEvent): void {

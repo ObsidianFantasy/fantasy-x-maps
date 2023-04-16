@@ -37,6 +37,8 @@ export abstract class RenderLayer {
         this.view = view
 
         this.element = view.svg.createSvg('g', { cls: this.cls })
+        
+        this.recalculate()
     }
 
     /**

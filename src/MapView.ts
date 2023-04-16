@@ -109,4 +109,13 @@ export class MapView extends View {
         // this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
         // this.polygonHandler.render(this)
     }
+
+    recalculate(): void {
+        console.log('recalculate')
+        this.polygonHandler.recalculate()
+
+        for (const layer of this.layers) {
+            layer.recalculate()
+        }
+    }
 }
