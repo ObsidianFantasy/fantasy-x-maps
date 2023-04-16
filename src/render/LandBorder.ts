@@ -3,6 +3,38 @@ import { MapView } from '../MapView'
 import { Delaunay } from 'd3-delaunay'
 import { RenderLayer } from './RenderLayer'
 
+// TODO CHANGE HOW MULTIPLE POLYGON CUTTING WORK (READ BELOW)
+//
+
+////////    var polygonClipping = require("polygon-clipping")
+//////// 
+////////    const pb = [[ [0,0], [10,0], [10,1], [0,1], [0,0] ]]
+////////    const pt = [[ [0,9], [10,9], [10,10], [0,10], [0,9] ]]
+//////// 
+////////    const pl = [[ [0,0], [1,0], [1,10], [0,10], [0,0] ]]
+////////    const pr = [[ [9,0], [10,0], [10,10], [9,10], [9,0] ]]
+//////// 
+////////    const c = [[ [3,3], [6,3], [3, 6], [3,3] ]]
+//////// 
+////////    polygonClipping.union(pb, pr, pt, pl, c)
+
+//
+// OUTPUTS
+//
+
+////////    Array (2 items)
+////////        0: Array (2 items)
+////////            0: [[0, 0], [10, 0], [10, 10], [0, 10], [0, 0]]
+////////            1: [[1, 1], [1, 9], [9, 9], [9, 1], [1, 1]]
+////////        1: [[[3, 3], [6, 3], [3, 6], [3, 3]]]
+
+// OUTER = BODY MASS
+// INNER = CUTS
+
+//
+// END TODO
+
+
 /**
  * Display the continental borders
  */
