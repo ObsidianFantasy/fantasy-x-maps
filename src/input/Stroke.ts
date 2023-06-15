@@ -132,26 +132,32 @@ export class HeightEditStroke extends Stroke {
 
     onLeftMouseDown(evt: MouseEvent): void {
         this.manipulate(evt, 1)
+        this.view.st.record(this.getAbsoluteCoordinates(x, y))
     }
 
     onLeftMouseMove(evt: MouseEvent): void {
         this.manipulate(evt, 1)
+        this.view.st.record(this.getAbsoluteCoordinates(x, y))
     }
 
     onWheelMouseDown(evt: MouseEvent): void {
         this.normalize(evt)
+        this.view.st.record(this.getAbsoluteCoordinates(x, y))
     }
 
     onWheelMouseMove(evt: MouseEvent): void {
         this.normalize(evt)
+        this.view.st.record(this.getAbsoluteCoordinates(x, y))
     }
 
     onRightMouseDown(evt: MouseEvent): void {
         this.manipulate(evt, -1)
+        this.view.st.record(evt)
     }
 
     onRightMouseMove(evt: MouseEvent): void {
         this.manipulate(evt, -1)
+        this.view.st.record(this.getAbsoluteCoordinates(x, y))
     }
 
     onMouseWheel(evt: WheelEvent): void {
@@ -166,10 +172,12 @@ export class HeightEditStroke extends Stroke {
 
     onLeftMouseUp(evt: MouseEvent): void {
         this.view.recalculate()
+        this.view.st.flush()
     }
 
     onWheelMouseUp(evt: MouseEvent): void {
         this.onLeftMouseUp(evt)
+        this.view.st.flush()
     }
 }
 

@@ -4,6 +4,7 @@ import { PolygonHandler } from './polygons/PolygonHandler'
 import { RenderLayer } from './render/RenderLayer'
 import { Landmass } from './render/Landmass'
 import { HeightMap } from './render/HeightMap'
+import { StrokeTail } from './render/StrokeTail'
 
 /**
  * ### The Core Renderer of the Map
@@ -28,6 +29,8 @@ export class MapView extends View {
      * Render Layers
      */
     layers: RenderLayer[] = []
+    debugLayers: RenderLayer[] = []
+    st: StrokeTail
 
     /**
      * Is the view loaded?
@@ -45,6 +48,8 @@ export class MapView extends View {
 
         this.addLayer(new Landmass())
         this.addLayer(new HeightMap())
+
+        this.st = this.addLayer(new StrokeTail(), true) as StrokeTail
     }
 
     getViewType(): string {
@@ -64,32 +69,32 @@ export class MapView extends View {
         this.loaded = true
 
         this.svg = this.containerEl.createSvg('svg', {
-            cls: ['map-view']
+            cls: ['map-view'],
         })
         this.polygonHandler.recalculate()
 
-        for (const layer of this.layers) {
-            layer.onload(this)
-        }
+        for (const layer of this.layers) layer.onload(this)
+        for (const layer of this.debugLayers) layer.onload(this)
 
         this.render()
     }
 
-    addLayer(l: RenderLayer) {
-        this.layers.push(l)
+    addLayer(l: RenderLayer, debug?: boolean): RenderLayer {
+        ;(debug ? this.debugLayers : this.layers).push(l)
 
         if (this.loaded) {
             l.onload(this)
         }
+
+        return l
     }
 
     onunload(): void {
         this.loaded = false
         super.onunload()
 
-        for (const layer of this.layers) {
-            layer.onunload()
-        }
+        for (const layer of this.layers) layer.onunload()
+        for (const layer of this.debugLayers) layer.onunload()
     }
 
     ////////////
@@ -113,8 +118,8 @@ export class MapView extends View {
     recalculate(): void {
         this.polygonHandler.recalculate()
 
-        for (const layer of this.layers) {
-            layer.recalculate()
-        }
+        // TODO display debug layers only on debug
+        for (const layer of this.layers) layer.recalculate()
+        for (const layer of this.debugLayers) layer.recalculate()
     }
 }
