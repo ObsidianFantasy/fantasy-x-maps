@@ -11,7 +11,7 @@ import { PreviewObserver } from './MapPreview'
 export default class MapPlugin extends Plugin {
     settings: {}
     preview: MutationObserver
-
+    
     addRibbon() {
         this.addRibbonIcon('map', 'Create map fragment', () =>
             createFile(this, 'map', '{}')
